@@ -1,14 +1,14 @@
 const Resources = {
-  tvaultDescription:
-    'T-Vault is a simplified and centralized secrets management solution for securely storing, distributing and tightly controlling access to passwords, certificates, encryption keys, tokens for protecting secrets and other sensitive data using a UI, HTTP API.',
+  csuiteDescription:
+    'C-Suite is a simplified and centralized asset management solution for use on Claims Product Team. Create .jks certificates, manage S3 buckets, update credentials, and much more with our elegant, easy to understand interface. Let\'s get started!',
   loginNotes:
-    ' This instance of T-Vault is for the Cloud Security Team to share AD Service account passwords, SSH keys, AWS Access Keys, Certificates and other general sensitive information to Cloud Customers only. Do not use it for Tier1 application integrations.',
-  storeDescription:
-    'Centrally store, access, and distribute secrets like API keys, AWS IAM/STS credentials, SQL/NoSQL databases, X.509 certificates, SSH credentials, and more.',
+    ' This instance of C-Suite is for the Claims Product Team for internal use only. This app is not to be distributed to other teams without consent from CP Team. Do not use it for Tier1 application integrations.',
+  createDescription:
+    'Create .jks certificates with the press of a button so you can get to developing in your local environment faster. No more running a whole set of commands every time your cert expires!',
   accessDescription:
-    'Secure and tight access control for accessing passwords, certificates, encryption keys for protecting secrets and other sensitive data using a UI and HTTP API.',
-  distributeDescription:
-    'Easily create safes, add secrets and share access to others. Integrate T-Vault with your existing workflows to distribute secrets to users.',
+    'Access S3 buckets in a simple and straightforward way. Upload or browse to prod or nonprod environments with our simplified tool.',
+  credentialsDescription:
+    'Update credentials for something filler finish this text later inb4 jk wow that\'s fresh.',
   serviceAccount:
     "Service Account Activation. By default passwords are not set to autorotate <br/> <p>Note: When 'Enable Password Rotation' is turned off, the password for this service account will not be autorotated by T-Vault.</p>",
   offBoardConfirmation:

@@ -108,7 +108,7 @@ const PrivateRoutes = () => {
   const handleOnActive = async () => {
     if (window.location.pathname !== '/' && configData.AUTH_TYPE === 'oidc') {
       if (getRemainingTime() === 0) {
-        document.title = 'VAULT';
+        document.title = 'C-SUITE';
         timer.cancelCountdown();
         setTimeWhenLoggedIn(new Date().getTime());
         await callRenewApi();

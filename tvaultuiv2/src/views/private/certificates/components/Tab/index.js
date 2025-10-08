@@ -93,6 +93,7 @@ const useStyles = makeStyles((theme) => ({
 
 const CertificateSelectionTabs = (props) => {
   const { certificateDetail } = props;
+  console.log('detail', certificateDetail)
   const classes = useStyles();
   const [value, setValue] = useState(0);
   const [certificateMetaData, setCertificateMetaData] = useState({});
@@ -101,7 +102,7 @@ const CertificateSelectionTabs = (props) => {
   const [hasPermission, setHasPermission] = useState(false);
   const [toastResponse, setToastResponse] = useState(null);
   const [userDetails, setUserDetails] = useState([]);
-  const [isDownloadEnabled, setIsDownloadEnabled] = useState(false);
+  const [isDownloadEnabled, setIsDownloadEnabled] = useState(true);
 
   useEffect(() => {
     if (certificateMetaData.applicationName) {
@@ -140,21 +141,21 @@ const CertificateSelectionTabs = (props) => {
   const getAllCertificateDetail = () => {
     setResponse({ status: 'loading' });
     setUserDetails([]);
-    const certName = certificateDetail.certificateName;
-    const url = `/sslcert?certificateName=${certificateDetail.certificateName}&certType=${certificateDetail.certType}`;
+    const certName = certificateDetail.name;
+    const url = `/sslcert?certificateName=${certificateDetail.name}&certType=${certificateDetail.type}`;
     apiService
       .getCertificateDetail(url)
       .then(async (res) => {
         if (
           res.data.keys &&
-          res?.data?.keys.filter((i) => i.certificateName === certName)[0]
+          res?.data?.keys.filter((i) => i.name === certName)[0]
         ) {
           await getEachUser(
-            res?.data?.keys.filter((i) => i.certificateName === certName)[0]
+            res?.data?.keys.filter((i) => i.name === certName)[0]
               .users
           );
           setCertificateMetaData({
-            ...res?.data?.keys.filter((i) => i.certificateName === certName)[0],
+            ...res?.data?.keys.filter((i) => i.name === certName)[0],
           });
         } else if (res.data) {
           await getEachUser(res.data);
@@ -175,8 +176,9 @@ const CertificateSelectionTabs = (props) => {
 
   const fetchCertificateDetail = () => {
     setResponse({ status: 'loading' });
+    console.log('getting the dets', certificateDetail)
     setUserDetails([]);
-    const url = `/sslcert/certificate/${certificateDetail.certType}?certificate_name=${certificateDetail.certificateName}`;
+    const url = `/sslcert/certificate/${certificateDetail.type}?certificate_name=${certificateDetail.name}`;
     apiService
       .getCertificateDetail(url)
       .then((res) => {
@@ -241,7 +243,7 @@ const CertificateSelectionTabs = (props) => {
     }
   }, [certificateMetaData, state]);
 
-  const certName = certificateDetail?.certificateName;
+  const certName = certificateDetail?.name;
 
   useEffect(() => {
     setValue(0);
@@ -278,7 +280,7 @@ const CertificateSelectionTabs = (props) => {
               <Tab label="Permissions" {...a11yProps(1)} />
             )}
           </Tabs>
-          {value === 0 && isDownloadEnabled && (
+          {/* {value === 0 && isDownloadEnabled && ( */}
             <DownLoadWrap>
               <Download
                 certificateMetaData={certificateMetaData}
@@ -287,7 +289,7 @@ const CertificateSelectionTabs = (props) => {
                 }
               />
             </DownLoadWrap>
-          )}
+          {/* )} */}
         </AppBar>
         <TabContentsWrap>
           <TabPanel value={value} index={0}>

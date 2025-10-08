@@ -7,10 +7,8 @@ const getAllAdminCertExternal = (limit, offset) =>
   api.get(`/sslcert?certType=external&limit=${limit}&offset=${offset}`);
 const getAllNonAdminCertInternal = () => api.get(`/sslcert/list/internal`);
 const getAllNonAdminCertExternal = () => api.get('/sslcert/list/external');
-const getInternalCertificates = (limit, offset) =>
-  api.get(
-    `/sslcert?certificateName=&certType=internal&limit=${limit}&offset=${offset}`
-  );
+const getInternalCertificates = () => api.get(`/sslcert/allcertificates`);
+// (limit, offset) => api.get(`/sslcert?certificateName=&certType=internal&limit=${limit}&offset=${offset}`);
 const searchAllCert = () => api.get(`/sslcert/allcertificates`);
 const getExternalCertificates = (limit, offset) =>
   api.get(

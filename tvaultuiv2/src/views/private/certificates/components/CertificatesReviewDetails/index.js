@@ -40,6 +40,7 @@ const CertificatesReviewDetails = (props) => {
       setResponse({ status: 'success' });
     }
   }, [certificateDetail]);
+
   return (
     <ComponentError>
       <DetailsContainer>

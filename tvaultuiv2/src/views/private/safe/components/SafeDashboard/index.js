@@ -305,42 +305,42 @@ const SafeDashboard = () => {
    * @description function call all the manage and users safe api.
    */
   const fetchUserSafesData = useCallback(async () => {
-    let safesApiResponse = [];
-    if (
-      configData.AUTH_TYPE === 'oidc' &&
-      JSON.parse(sessionStorage.getItem('safesApiCount')) === 0
-    ) {
-      safesApiResponse = await apiService.getSafes();
-    }
-    const usersListApiResponse = await apiService.getManageUsersList(
-      limit,
-      safeOffset
-    );
-    const allApiResponse = Promise.all([
-      safesApiResponse,
-      usersListApiResponse,
-    ]);
-    allApiResponse
-      .then(async (result) => {
-        setSafeOffset(limit + safeOffset);
-        let safesObject = [];
-        if (configData.AUTH_TYPE === 'oidc') {
-          if (result && result[0]?.data) {
-            sessionStorage.setItem('safesData', JSON.stringify(result[0].data));
-          }
-        } else {
-          safesLdapUserPassResponse();
-        }
-        if (result && result[1]?.data?.keys) {
-          safesObject = compareSafesAndList(result[1].data.keys, 'users');
-        }
+    // let safesApiResponse = [];
+    // if (
+    //   configData.AUTH_TYPE === 'oidc' &&
+    //   JSON.parse(sessionStorage.getItem('safesApiCount')) === 0
+    // ) {
+    //   safesApiResponse = await apiService.getSafes();
+    // }
+    // const usersListApiResponse = await apiService.getManageUsersList(
+    //   limit,
+    //   safeOffset
+    // );
+    // const allApiResponse = Promise.all([
+    //   safesApiResponse,
+    //   usersListApiResponse,
+    // ]);
+    // allApiResponse
+    //   .then(async (result) => {
+    //     setSafeOffset(limit + safeOffset);
+    //     let safesObject = [];
+    //     if (configData.AUTH_TYPE === 'oidc') {
+    //       if (result && result[0]?.data) {
+    //         sessionStorage.setItem('safesData', JSON.stringify(result[0].data));
+    //       }
+    //     } else {
+    //       safesLdapUserPassResponse();
+    //     }
+    //     if (result && result[1]?.data?.keys) {
+    //       safesObject = compareSafesAndList(result[1].data.keys, 'users');
+    //     }
 
-        onResponseVariableSet(safesObject);
-        checkHasMoreData(result[1]);
-      })
-      .catch(() => {
-        setResponse({ status: 'failed', message: 'failed' });
-      });
+    //     onResponseVariableSet(safesObject);
+    //     checkHasMoreData(result[1]);
+    //   })
+    //   .catch(() => {
+    //     setResponse({ status: 'failed', message: 'failed' });
+    //   });
     // eslint-disable-next-line
   }, [safeOffset, safeList]);
 
