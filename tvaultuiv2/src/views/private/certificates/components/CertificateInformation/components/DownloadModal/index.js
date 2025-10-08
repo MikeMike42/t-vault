@@ -138,19 +138,17 @@ const DownloadModal = (props) => {
 
   const classes = useStyles();
 
-  const [formatType, setFormatType] = useState('DER-P12');
+  const [formatType, setFormatType] = useState('JKS');
   const [password, setPassword] = useState('');
   const isMobileScreen = useMediaQuery(small);
   const [issuerChain, setIssuerChain] = useState(true);
   const [selectItem] = useState([
-    { name: 'DER-P12', value: 'pkcs12der' },
-    { name: 'PER-PFX', value: 'pkcs12pem' },
-    { name: 'PEM-OPENSSL', value: 'pembundle' },
+    { name: 'JKS', value: 'jks' },
   ]);
 
   const onCloseModal = () => {
     setIssuerChain(true);
-    setFormatType('DER-P12');
+    setFormatType('JKS');
     setPassword('');
     onCloseDownloadModal();
   };
@@ -159,19 +157,13 @@ const DownloadModal = (props) => {
     let type = '';
     const obj = selectItem.find((item) => item.name === formatType);
     const payload = {
-      certType: certificateMetaData.certType,
+      certType: certificateMetaData.type,
       certificateCred: password,
-      certificateName: certificateMetaData.certificateName,
+      certificateName: certificateMetaData.name,
       format: obj.value,
       issuerChain,
     };
-    if (formatType === 'PER-PFX') {
-      type = 'pfx';
-    } else if (formatType === 'PEM-OPENSSL') {
-      type = 'pem';
-    } else {
-      type = 'p12';
-    }
+    type = 'jks';
     onPrivateDownloadClicked(payload, type);
     onCloseModal();
   };
@@ -192,11 +184,11 @@ const DownloadModal = (props) => {
       >
         <Fade in={openDownloadModal}>
           <ModalWrapper>
-            <Header>Download Certificate</Header>
+            <Header>Download Keystore</Header>
             {typeOfDownload === 'private' && (
               <PrivateKeyWrap>
                 <Description>
-                  Download certificate with private key.
+                  Enter password to download JKS keystore.
                 </Description>
                 <InputFieldLabelWrapper>
                   <InputLabel>
@@ -223,14 +215,6 @@ const DownloadModal = (props) => {
                     onChange={(e) => setFormatType(e)}
                   />
                 </InputFieldLabelWrapper>
-                <IncludeChainWrap>
-                  <InputLabel>Include CA chain </InputLabel>
-                  <SwitchComponent
-                    checked={issuerChain}
-                    handleChange={(e) => setIssuerChain(e.target.checked)}
-                    name="rotate password"
-                  />
-                </IncludeChainWrap>
                 <CancelSaveWrapper>
                   <CancelButton>
                     <ButtonComponent

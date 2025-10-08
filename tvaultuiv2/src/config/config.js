@@ -4,7 +4,7 @@ const config = {
   SIGN_UP_LINK: '',
   DOMAIN_NAME: '',
   FORGOT_PASSWORD_LINK: '',
-  AUTH_TYPE: 'oidc',
+  AUTH_TYPE: 'userpass',
   OIDC_ROLE: '',
   OIDC_REDIRECT_URL: '',
   SSL_EXT_CERTIFICATE: true,

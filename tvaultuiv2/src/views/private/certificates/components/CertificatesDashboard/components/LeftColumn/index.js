@@ -131,6 +131,7 @@ const LeftColumn = (props) => {
    * @param {object} e event
    */
   const onActionClicked = (e, cert) => {
+    console.log('action clicked', e, cert)
     if (count === 0) {
       setCount(1);
       setSelectedCert(cert);
@@ -167,8 +168,8 @@ const LeftColumn = (props) => {
           >
             <CertificateListItemWrap isOnboardCert={certificate.isOnboardCert}>
               <CertificateListItem
-                title={certificate.certificateName}
-                certType={certificate.certType}
+                title={certificate.name}
+                certType={certificate.type}
                 isOnboardCert={certificate.isOnboardCert}
                 createDate={
                   certificate.createDate

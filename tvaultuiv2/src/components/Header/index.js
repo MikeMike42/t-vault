@@ -9,7 +9,7 @@ import Link from '@material-ui/core/Link';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import ComponentError from '../../errorBoundaries/ComponentError/component-error';
 import mediaBreakpoints from '../../breakpoints';
-import vaultIcon from '../../assets/tvault.svg';
+import vaultIcon from '../../assets/csuite.svg';
 import menu from '../../assets/menu.svg';
 import Sidebar from '../Sidebar';
 import UserLogout from './userLogout';
@@ -148,15 +148,15 @@ const Header = (props) => {
     ],
   };
 
-  const userPassNavItems = [
+  const userPassNavItems = //[
     {
       customSafesNavItems: [
         { label: 'Safes', path: 'safes' },
         { label: 'Vault AppRoles', path: 'vault-app-roles' },
       ],
       svcNavItems: [{ label: 'AD Service Accounts', path: 'service-accounts' }],
-    },
-  ];
+    }
+  //];
 
   const { trackPageView, trackEvent } = useMatomo();
 
@@ -220,6 +220,7 @@ const Header = (props) => {
     const path = location.pathname.split('/');
     setCurrentTab(path[1]);
     Object.keys(navItems).map((item) => {
+      console.log('item', item)
       return navItems[item].map((ele) => {
         if (path[1] === ele.path) {
           if (item === 'customSafesNavItems') {
@@ -285,7 +286,7 @@ const Header = (props) => {
           <TVaultIcon src={vaultIcon} alt="tvault-logo" />
           {isLogin && (
             <HeaderCenter>
-              <HeaderSelectComponent
+              {/* <HeaderSelectComponent
                 menu={[...navItems.customSafesNavItems]}
                 value={customSafes}
                 filledText="Custom Safes"
@@ -295,19 +296,19 @@ const Header = (props) => {
                   handleOnClick(e);
                 }}
                 width="16rem"
-              />
-              {configData.AUTH_TYPE !== 'userpass' && (
-                <NavLink
-                  key="Certificates"
-                  to="/certificates"
-                  onClick={() => handleOnClick('Certificates')}
-                  component={RRDLink}
-                  active={currentTab === 'certificates' ? 'true' : 'false'}
-                >
-                  Certificates
-                </NavLink>
-              )}
-              <HeaderSelectComponent
+              /> */}
+              
+              <NavLink
+                key="Certificates"
+                to="/certificates"
+                onClick={() => handleOnClick('Certificates')}
+                component={RRDLink}
+                active={currentTab === 'certificates' ? 'true' : 'false'}
+              >
+                Certificates
+              </NavLink>
+              
+              {/* <HeaderSelectComponent
                 menu={[...navItems.svcNavItems]}
                 value={svcSafes}
                 filledText="Service Accounts"
@@ -317,7 +318,7 @@ const Header = (props) => {
                   handleOnClick(e);
                 }}
                 width="21rem"
-              />
+              /> */}
             </HeaderCenter>
           )}
           <>

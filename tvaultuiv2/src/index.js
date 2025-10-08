@@ -9,22 +9,22 @@ import { StateProvider } from './contexts/globalState';
 import mainReducer from './stateManagement/reducer';
 import initialState from './stateManagement';
 
-const instance = createInstance({
-  urlBase: 'https://analytics.pacbot.t-mobile.com/',
-  siteId: 8,
-  userId: sessionStorage.getItem('owner') || 'User',
-  linkTracking: false, // optional, default value: true
-});
+// const instance = createInstance({
+//   urlBase: 'https://analytics.pacbot.t-mobile.com/',
+//   siteId: 8,
+//   userId: sessionStorage.getItem('owner') || 'User',
+//   linkTracking: false, // optional, default value: true
+// });
 
 ReactDOM.render(
   <React.StrictMode>
-    <MatomoProvider value={instance}>
+    {/* <MatomoProvider value={instance}> */}
       <BrowserRouter>
         <StateProvider reducer={mainReducer} state={initialState}>
           <App />
         </StateProvider>
       </BrowserRouter>
-    </MatomoProvider>
+    {/* </MatomoProvider> */}
   </React.StrictMode>,
   document.getElementById('root')
 );

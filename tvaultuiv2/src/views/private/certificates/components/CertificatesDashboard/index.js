@@ -37,6 +37,7 @@ import OnboardCertificates from '../OnboardCertificate';
 import DeletionConfirmationModal from './components/DeletionConfirmationModal';
 import SuccessAndErrorModal from '../../../../../components/SuccessAndErrorModal';
 import SearchboxWithDropdown from '../../../../../components/FormFields/SearchboxWithDropdown';
+import ButtonComponent from '../../../../../components/FormFields/ActionButton';
 
 const ColumnSection = styled('section')`
   position: relative;
@@ -234,7 +235,8 @@ const CertificatesDashboard = () => {
 
   const fetchAdminInternalData = useCallback(async () => {
     apiService
-      .getInternalCertificates(limit, offset)
+      .getInternalCertificates()
+        // limit, offset)
       .then((result) => {
         setOffset(offset + limit);
         const internalCertArray = [];
@@ -299,57 +301,60 @@ const CertificatesDashboard = () => {
     if (configData.AUTH_TYPE === 'oidc' && offset === 0) {
       allCertInternal = apiService.getAllNonAdminCertInternal();
     }
-    const internalCertificates = apiService.getInternalCertificates(
-      limit,
-      offset
-    );
+    const internalCertificates = apiService.getInternalCertificates();
+    //   limit,
+    //   offset
+    // );
+
     const allApiResponse = Promise.all([allCertInternal, internalCertificates]);
     allApiResponse
       .then((result) => {
         const allCertificateInternal = [];
         const internalCertArray = [];
-        if (configData.AUTH_TYPE === 'oidc') {
-          if (result && result[0]?.data?.cert) {
-            result[0].data.cert.map((item) => {
-              return Object.entries(item).map(([key, value]) => {
-                if (value.toLowerCase() !== 'deny') {
-                  return allCertificateInternal.push(key);
-                }
-                return null;
-              });
-            });
-            setAllCertificates([...allCertificateInternal]);
-          }
-        } else {
-          const access = JSON.parse(sessionStorage.getItem('access'));
-          if (Object.keys(access).length > 0) {
-            Object.keys(access).forEach((item) => {
-              if (item === 'cert' || item === 'internalcerts') {
-                access[item].map((ele) => {
-                  const val = Object.keys(ele);
-                  if (item === 'cert') {
-                    allCertificateInternal.push(val[0]);
-                  }
-                  return null;
-                });
-              }
-            });
-          }
-          setAllCertificates([...allCertificateInternal]);
-        }
-        if (result && result[1]?.data?.keys) {
-          if (result[1]?.data?.next === '-1') {
-            setHasMore(false);
-          } else {
-            setHasMore(true);
-          }
-          result[1].data.keys.map((item) => {
-            if (item.certificateName) {
+        // if (configData.AUTH_TYPE === 'oidc') {
+        //   if (result && result[0]?.data?.cert) {
+        //     result[0].data.cert.map((item) => {
+        //       return Object.entries(item).map(([key, value]) => {
+        //         if (value.toLowerCase() !== 'deny') {
+        //           return allCertificateInternal.push(key);
+        //         }
+        //         return null;
+        //       });
+        //     });
+        //     setAllCertificates([...allCertificateInternal]);
+        //   }
+        // } else {
+        //   const access = JSON.parse(sessionStorage.getItem('access'));
+        //   if (Object.keys(access).length > 0) {
+        //     Object.keys(access).forEach((item) => {
+        //       if (item === 'cert' || item === 'internalcerts') {
+        //         access[item].map((ele) => {
+        //           const val = Object.keys(ele);
+        //           if (item === 'cert') {
+        //             allCertificateInternal.push(val[0]);
+        //           }
+        //           return null;
+        //         });
+        //       }
+        //     });
+        //   }
+        //   setAllCertificates([...allCertificateInternal]);
+        // }
+        result[1].data.forEach(item => {
+          // if (result[1]?.data?.next === '-1') {
+          //   setHasMore(false);
+          // } else {
+          //   setHasMore(true);
+          // }
+          // result[1].data.keys.map((item) => {
+            if (item.name) {
               return internalCertArray.push(item);
             }
             return null;
-          });
-        }
+          // });
+        })
+          
+        
         const finalList = [...allCertList, ...internalCertArray];
         if (result[1]?.data?.next === '-1') {
           if (offset === 0) {
@@ -607,21 +612,23 @@ const CertificatesDashboard = () => {
   }, []);
 
   const searchAllcertApi = useCallback(() => {
+    console.log('searching all certs')
     const allSearchCerts = [];
     apiService
       .searchAllCert()
       .then((res) => {
         if (res && res?.data) {
-          res.data.internal.map((item) =>
+          res.data.forEach(item => {
             allSearchCerts.push({
-              name: item,
+              name: item.name,
               type: 'internal',
             })
-          );
-          // res.data.external.map((item) =>
+            console.log(item.name)
+          })
+          // res.data.internal.map((item) =>
           //   allSearchCerts.push({
           //     name: item,
-          //     type: 'external',
+          //     type: 'internal',
           //   })
           // );
         }
@@ -992,7 +999,7 @@ const CertificatesDashboard = () => {
   };
 
   const loadMoreData = () => {
-    setIsLoading(true);
+    // setIsLoading(true);
     if (certificateType === 'Internal') {
       fetchInternalCertificates();
     }
@@ -1081,13 +1088,33 @@ const CertificatesDashboard = () => {
             {response.status === 'loading' && (
               <ScaledLoader contentHeight="80%" contentWidth="100%" />
             )}
-            {response.status === 'failed' && (
+            {/* {response.status === 'failed' && (
               <EmptyContentBox>
                 <Error
                   description={errorMsg || 'Error while fetching certificates!'}
                 />
               </EmptyContentBox>
-            )}
+            )} */}
+            {/* {
+              <NoDataWrapper>
+                <NoListWrap>
+                  <NoData
+                    imageSrc={noCertificateIcon}
+                    description="Create a certificate to get started!"
+                    actionButton={
+                      <FloatingActionButtonComponent
+                        href="/certificates/create-ceritificate"
+                        color="secondary"
+                        icon="add"
+                        tooltipTitle="Create New Certificate"
+                        tooltipPos="bottom"
+                      />
+                    }
+                    customStyle={customStyle}
+                  />
+                </NoListWrap>
+              </NoDataWrapper>
+            } */}
             {response.status === 'success' && (
               <>
                 {certificateList?.length > 0 && (

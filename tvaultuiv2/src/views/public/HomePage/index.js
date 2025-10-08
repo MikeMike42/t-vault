@@ -431,7 +431,7 @@ const LoginPage = () => {
             await getLoggedInUserName();
             await renewToken();
             dispatch({ type: 'CALLBACK_DATA', payload: { ...res.data } });
-            window.location = '/safes';
+            window.location = '/certificates';
           }
         })
         .catch(() => {
@@ -477,7 +477,7 @@ const LoginPage = () => {
           sessionStorage.setItem('access', JSON.stringify(res.data.access));
           sessionStorage.setItem('username', payload.username.toLowerCase());
           await getOwnerAllDetails(payload.username.toLowerCase());
-          window.location = '/safes';
+          window.location = '/certificates';
         }
       })
       .catch((err) => {
@@ -490,24 +490,28 @@ const LoginPage = () => {
   };
 
   const userpassApiCall = (payload) => {
-    axios
-      .post(`${configUrl.baseUrl}/auth/tvault/login`, payload)
-      .then(async (res) => {
-        sessionStorage.setItem('token', res.data.client_token);
-        checkAdmin(res?.data?.admin);
-        checkCertAdmin(res?.data?.certAdmin);
-        sessionStorage.setItem('access', JSON.stringify(res.data.access));
-        sessionStorage.setItem('username', payload.username.toLowerCase());
-        await getOwnerAllDetails(payload.username.toLowerCase());
-        window.location = '/safes';
-      })
-      .catch((err) => {
-        if (err?.response?.data?.errors && err.response.data.errors[0]) {
-          setToastMessage(err.response.data.errors[0]);
-        }
-        setResponseType(-1);
-        setResponse({ status: 'home' });
-      });
+    sessionStorage.setItem('token', 'test1234');
+    sessionStorage.setItem('access', 'accessthing');
+    sessionStorage.setItem('username', 'adminuser');
+    window.location = '/certificates';
+    // axios
+    //   .post(`${configUrl.baseUrl}/auth/tvault/login`, payload)
+    //   .then(async (res) => {
+    //     sessionStorage.setItem('token', res.data.client_token);
+    //     checkAdmin(res?.data?.admin);
+    //     checkCertAdmin(res?.data?.certAdmin);
+    //     sessionStorage.setItem('access', JSON.stringify(res.data.access));
+    //     sessionStorage.setItem('username', payload.username.toLowerCase());
+    //     await getOwnerAllDetails(payload.username.toLowerCase());
+    //     window.location = '/safes';
+    //   })
+    //   .catch((err) => {
+    //     if (err?.response?.data?.errors && err.response.data.errors[0]) {
+    //       setToastMessage(err.response.data.errors[0]);
+    //     }
+    //     setResponseType(-1);
+    //     setResponse({ status: 'home' });
+    //   });
   };
 
   const onSignInClicked = (username, password) => {
@@ -561,9 +565,9 @@ const LoginPage = () => {
               </HeaderWrap>
               <FirstRow rowCommonCss={rowCommonCss}>
                 <LeftColumn>
-                  <Title>Welcome To T-Vault</Title>
+                  <Title>Welcome To C-Suite</Title>
                   <Description>
-                    {Strings.Resources.tvaultDescription}
+                    {Strings.Resources.csuiteDescription}
                   </Description>
                   <ButtonWrap>
                     <ButtonComponent
@@ -591,8 +595,8 @@ const LoginPage = () => {
                 <CardWrapper rowCommonCss={rowCommonCss}>
                   <Tile>
                     <Image src={Store} alt="store" />
-                    <Heading>Store</Heading>
-                    <Details>{Strings.Resources.storeDescription}</Details>
+                    <Heading>Create</Heading>
+                    <Details>{Strings.Resources.createDescription}</Details>
                   </Tile>
                   <Tile>
                     <Image src={Access} alt="access" />
@@ -601,8 +605,8 @@ const LoginPage = () => {
                   </Tile>
                   <Tile>
                     <Image src={Distribute} alt="distribute" />
-                    <Heading>Distribute</Heading>
-                    <Details>{Strings.Resources.distributeDescription}</Details>
+                    <Heading>Update</Heading>
+                    <Details>{Strings.Resources.credentialsDescription}</Details>
                   </Tile>
                 </CardWrapper>
                 <Instruction>
@@ -613,15 +617,15 @@ const LoginPage = () => {
             </MainContainer>
             <ThirdRow>
               <ContactUs>
-                Developed by Cloud TeamContact us on
+                Developed by Mike L. Contact me on
                 <a
                   target="_blank"
                   rel="noopener noreferrer"
                   href={configData.SLACK_LINK}
                 >
-                  Slack
+                  nothing
                 </a>
-                or shoot us an <a href={configData.EMAIL_LINK}>email</a>
+                or shoot me an <a href={configData.EMAIL_LINK}>email</a> (pls don't)
               </ContactUs>
             </ThirdRow>
           </Container>

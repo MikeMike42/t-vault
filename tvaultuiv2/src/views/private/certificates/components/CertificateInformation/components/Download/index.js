@@ -74,6 +74,8 @@ const Download = (props) => {
       'Content-type': 'application/json',
       'Access-Control-Allow-Origin': '*',
     };
+    console.log('payload', payload)
+    console.log('type', type)
     axios
       .post(`${configUrl.baseUrl}/sslcert/certificates/download`, payload, {
         headers,
@@ -81,10 +83,12 @@ const Download = (props) => {
       })
       .then((res) => {
         onDownloadChange('success', null);
-        FileDownload(
-          res.data,
-          `${certificateMetaData.certificateName}.${type}`
-        );
+        // const data = JSON.parse(res.data)
+        console.log('res', res)
+        // FileDownload(
+        //   data,
+        //   `test.${type}`//`${certificateMetaData.name}.${type}`
+        // );
       })
       .catch((e) => {
         setSuccessErrorModal(true);
@@ -198,16 +202,16 @@ const Download = (props) => {
                     popupState.close();
                   }}
                 >
-                  <span>Download w/ Private Key</span>
+                  <span>Download JKS Keystore</span>
                 </PopperItem>
-                <PopperItem
+                {/* <PopperItem
                   onClick={() => {
                     onPopperItemClicked('pem-der');
                     popupState.close();
                   }}
                 >
                   <span>Download w/ PEM/DER Format</span>
-                </PopperItem>
+                </PopperItem> */}
               </PoperItemWrap>
             </Popover>
           </div>
