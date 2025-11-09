@@ -523,38 +523,38 @@ const OnboardCertificates = (props) => {
     const selectedApp = allApplication.find((item) => appName === item.appName);
     if (selectedApp !== undefined) {
       setNotifyEmailStatus({ status: 'searching' });
-      apiService
-        .getNotificationEmails(selectedApp?.appID)
-        .then((res) => {
-          if (res?.data?.spec) {
-            const array = [];
-            if (
-              res.data.spec.projectLeadEmail &&
-              array.indexOf(res.data.spec.projectLeadEmail?.toLowerCase()) ===
-                -1
-            ) {
-              array.push(res.data.spec.projectLeadEmail.toLowerCase());
-            }
-            if (
-              res.data.spec.opsContactEmail &&
-              array.indexOf(res.data.spec.opsContactEmail?.toLowerCase()) === -1
-            ) {
-              array.push(res.data.spec.opsContactEmail.toLowerCase());
-            }
-            const obj = array.find(
-              (item) => item.toLowerCase() === owner.toLowerCase()
-            );
-            if (owner !== '' && !obj) {
-              array.push(owner);
-            }
-            setNotificationEmailList([...array]);
-          }
-          setNotifyEmailStatus({ status: 'available' });
-        })
-        .catch(() => {
-          setResponseType(-1);
-          setToastMessage('Something went wrong while fetching emails list!');
-        });
+      // apiService
+      //   .getNotificationEmails(selectedApp?.appID)
+      //   .then((res) => {
+      //     if (res?.data?.spec) {
+      //       const array = [];
+      //       if (
+      //         res.data.spec.projectLeadEmail &&
+      //         array.indexOf(res.data.spec.projectLeadEmail?.toLowerCase()) ===
+      //           -1
+      //       ) {
+      //         array.push(res.data.spec.projectLeadEmail.toLowerCase());
+      //       }
+      //       if (
+      //         res.data.spec.opsContactEmail &&
+      //         array.indexOf(res.data.spec.opsContactEmail?.toLowerCase()) === -1
+      //       ) {
+      //         array.push(res.data.spec.opsContactEmail.toLowerCase());
+      //       }
+      //       const obj = array.find(
+      //         (item) => item.toLowerCase() === owner.toLowerCase()
+      //       );
+      //       if (owner !== '' && !obj) {
+      //         array.push(owner);
+      //       }
+      //       setNotificationEmailList([...array]);
+      //     }
+      //     setNotifyEmailStatus({ status: 'available' });
+      //   })
+      //   .catch(() => {
+      //     setResponseType(-1);
+      //     setToastMessage('Something went wrong while fetching emails list!');
+      //   });
     }
   };
 

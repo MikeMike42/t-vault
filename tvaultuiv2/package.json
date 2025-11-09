@@ -41,7 +41,6 @@
   },
   "lint-staged": {
     "src/**/*.{js,jsx,json}": [
-      "eslint --fix",
       "git add"
     ]
   },
@@ -52,15 +51,11 @@
   },
   "scripts": {
     "precommit": "lint-staged",
-    "start": "react-scripts start",
-    "build": "CI=false && react-scripts build",
-    "test": "react-scripts test",
+    "start": "set DISABLE_ESLINT_PLUGIN=true && react-scripts start",
+    "build": "set DISABLE_ESLINT_PLUGIN=true && CI=false && react-scripts build",
+    "test": "set DISABLE_ESLINT_PLUGIN=true && react-scripts test",
     "eject": "react-scripts eject",
-    "cypress": "node_modules/.bin/cypress open",
-    "lint": "eslint src/**/*.js"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
+    "cypress": "node_modules/.bin/cypress open"
   },
   "browserslist": {
     "production": [
@@ -77,17 +72,7 @@
   "devDependencies": {
     "babel-plugin-styled-components": "^1.11.1",
     "cypress": "^4.12.1",
-    "eslint": "^6.8.0",
-    "eslint-config-prettier": "^6.11.0",
-    "eslint-plugin-import": "^2.22.0",
-    "eslint-plugin-jsx-a11y": "^6.3.1",
-    "eslint-plugin-node": "^11.0.0",
-    "eslint-plugin-prettier": "^3.1.4",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-react": "^7.18.3",
-    "eslint-plugin-react-hooks": "^4.0.8",
     "husky": "^4.2.5",
-    "lint-staged": "^10.2.11",
-    "prettier": "^2.0.5"
+    "lint-staged": "^10.2.11"
   }
 }

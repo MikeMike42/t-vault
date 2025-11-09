@@ -115,12 +115,12 @@ const CertificateInformation = (props) => {
                 <EachDetail>
                   <Label>Certificate Type:</Label>
                   <Value capitalize="capitalize">
-                    {certificateMetaData.certType || 'N/A'}
+                    {certificateMetaData.type?.toUpperCase() || 'N/A'}
                   </Value>
                 </EachDetail>
                 <EachDetail>
                   <Label>Certificate Name:</Label>
-                  <Value>{certificateMetaData.certificateName || 'N/A'}</Value>
+                  <Value>{certificateMetaData.name || 'N/A'}</Value>
                 </EachDetail>
                 <EachDetail>
                   <Label>Application Name:</Label>
@@ -151,14 +151,14 @@ const CertificateInformation = (props) => {
                   <Value>
                     {getKeyUsageValue(
                       certificateMetaData.keyUsageValue,
-                      certificateMetaData.certType
+                      certificateMetaData.type
                     ) || 'N/A'}
                   </Value>
                 </EachDetail>
                 <EachDetail>
                   <Label>Enroll Service:</Label>
                   <Value>
-                    {certificateMetaData?.certType?.toLowerCase() === 'internal'
+                    {certificateMetaData?.type?.toLowerCase() === 'internal'
                       ? 'T-Mobile Issuing CA 01 - SHA2'
                       : 'Entrust CA'}
                   </Value>

@@ -10,7 +10,7 @@ const config = {
   SSL_EXT_CERTIFICATE: true,
   AD_USERS_AUTOCOMPLETE: true,
   AD_GROUP_AUTOCOMPLETE: true,
-  DOCS_LINK: '',
+  DOCS_LINK: 'http://wwww.google.com',
   REPO_LINK: '',
   PAGE_SIZE: 20,
   DEV_OIDC_REDIRECT_URL: 'http://localhost:3000',

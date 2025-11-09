@@ -14,8 +14,10 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -24,7 +26,7 @@ public class CertController {
     @GetMapping("/createCert")
     public void createCert() throws IOException, InterruptedException {
         ProcessBuilder pb = new ProcessBuilder("C:\\Windows\\system32\\cmd.exe")
-                .directory(new File("C:\\Users\\brosh\\Documents\\tvault\\t-vault\\csuiteapi2\\csuiteapi\\src\\main\\resources\\openssl"));
+                .directory(new File("C:\\Users\\brosh\\OneDrive\\Desktop\\CSuite\\t-vault\\csuiteapi2\\csuiteapi\\src\\main\\resources\\openssl"));
         pb.command().add("/c");
         pb.command().add("openssl pkcs12 -export -out gwcpnonprod.aceclublink.com_2024-01-06.p12 " +
                 "-inkey gwcpnonprod.aceclublink.com-privkey.key -in gwcpnonprodaceclublinkcom_without_chain.pem");
@@ -52,7 +54,7 @@ public class CertController {
     public ResponseEntity<String> getAllCertificates() throws JsonProcessingException {
         String filePrefix = "gwcpnonprod.aceclublink.com-";
 
-        File directory = new File("C:\\Users\\brosh\\Documents\\tvault\\t-vault\\csuiteapi2\\csuiteapi\\src\\main\\resources\\openssl");
+        File directory = new File("C:\\Users\\brosh\\OneDrive\\Desktop\\CSuite\\t-vault\\csuiteapi2\\csuiteapi\\src\\main\\resources\\openssl");
 
         List<Certificate> certificateList = new ArrayList<>();
         if (directory.exists() && directory.isDirectory()) {
@@ -67,7 +69,9 @@ public class CertController {
                 System.out.println("Files found:");
                 Arrays.stream(matchingFiles).forEach(file -> {
                     System.out.println(file.getName());
-                    certificateList.add(new Certificate(file.getName(), "internal"));
+                    certificateList.add(new Certificate(file.getName(), new String[] {}, "11/08/2026",
+                            new SimpleDateFormat("MM/dd/yyyy").format(new Date()),
+                            "ClaimCenter", "admin@gmail.com", "Claims Product Non-Prod", "JKS"));
                 });
             } else {
                 System.out.println("No files found with the prefix: " + filePrefix);
@@ -86,17 +90,19 @@ public class CertController {
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping(value = "/sslcert/certificates/download", produces = "application/json")
     public ResponseEntity<InputStreamResource> downloadCert() throws IOException {
-        byte[] fileBytes = readFileToByteArray(new File("C:\\Users\\brosh\\Documents\\tvault\\t-vault\\csuiteapi2\\csuiteapi\\src\\main\\resources\\openssl\\gwcpnonprod.aceclublink.com-privkey.key"));
+        byte[] fileBytes = readFileToByteArray(new File("C:\\Users\\brosh\\OneDrive\\Desktop\\CSuite\\t-vault\\csuiteapi2\\csuiteapi\\src\\main\\resources\\openssl\\gwcpnonprod.aceclublink.com-privkey.key"));
         InputStreamResource resource = new InputStreamResource(new ByteArrayInputStream(fileBytes));
         return ResponseEntity.status(HttpStatus.OK).body(resource);
     }
 
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @PostMapping(value = "/sslcert/certificate/internal", produces = "application/json")
+    @GetMapping(value = "/sslcert/certificate/internal", produces = "application/json")
     public ResponseEntity<Certificate> getCertDetail(@RequestParam String certName) throws IOException {
-        byte[] fileBytes = readFileToByteArray(new File("C:\\Users\\brosh\\Documents\\tvault\\t-vault\\csuiteapi2\\csuiteapi\\src\\main\\resources\\openssl\\" + certName));
-        return ResponseEntity.status(HttpStatus.OK).body(new Certificate(certName, "jks"));
+        byte[] fileBytes = readFileToByteArray(new File("C:\\Users\\brosh\\OneDrive\\Desktop\\CSuite\\t-vault\\csuiteapi2\\csuiteapi\\src\\main\\resources\\openssl\\" + certName));
+        return ResponseEntity.status(HttpStatus.OK).body(new Certificate(certName, new String[] {}, "11/08/2026",
+                new SimpleDateFormat("MM/dd/yyyy").format(new Date()),
+                "ClaimCenter", "admin@gmail.com", "Claims Product Non-Prod", "JKS"));
     }
 
 

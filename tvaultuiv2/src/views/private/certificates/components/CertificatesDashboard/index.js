@@ -340,6 +340,7 @@ const CertificatesDashboard = () => {
         //   }
         //   setAllCertificates([...allCertificateInternal]);
         // }
+        console.log("this is result", result[1].data)
         result[1].data.forEach(item => {
           // if (result[1]?.data?.next === '-1') {
           //   setHasMore(false);
@@ -353,6 +354,8 @@ const CertificatesDashboard = () => {
             return null;
           // });
         })
+
+        setAllCertificates([...internalCertArray]);
           
         
         const finalList = [...allCertList, ...internalCertArray];
@@ -519,7 +522,8 @@ const CertificatesDashboard = () => {
       searchSelected.length === 0
     ) {
       setListItemDetails(allCertList[0]);
-      history.push(`/certificates/${allCertList[0]?.certificateName}`);
+      history.push(`/certificates/${allCertList[0]?.name}`);
+      console.log("pushed allcert", `/certificates/${allCertList[0]?.name}`)
     } else {
       setListItemDetails({});
     }
@@ -544,7 +548,8 @@ const CertificatesDashboard = () => {
    */
   const onLinkClicked = (cert) => {
     const certificatePermision = allCertificates.filter(
-      (i) => i === cert.certificateName
+      (i) => 
+        i.name === cert.name
     )[0];
     if (
       !certificatePermision &&
@@ -697,9 +702,9 @@ const CertificatesDashboard = () => {
       }
     } else if (value?.length > 2) {
       const filteredList = onboardCertificates
-        .filter((i) => i.certificateName.includes(value))
+        .filter((i) => i.name.includes(value))
         .map((i) => {
-          return { ...i, name: i.certificateName, type: i.certType };
+          return { ...i, name: i.name, type: i.certType };
         });
       setOptions([...filteredList]);
       if (filteredList.length > 0) {
@@ -720,12 +725,12 @@ const CertificatesDashboard = () => {
   }, [inputSearchValue]);
 
   const fetchCertificateDetail = (certType, certName) => {
-    const url2 = `/sslcert/certificate/${certType}?certificate_name=${certName}`;
+    const url2 = `/sslcert/certificate/${certType}?certName=${certName}`;
     apiService.getCertificateDetail(url2).then((res) => {
       if (res?.data) {
         setSearchSelected([res?.data]);
       } else {
-        setSearchSelected([{ certificateName: certName, certType }]);
+        setSearchSelected([{ name: certName, type: certType }]);
       }
       setResponse({ status: 'success' });
     });
@@ -736,25 +741,28 @@ const CertificatesDashboard = () => {
     apiService
       .getCertificateDetail(url)
       .then((res) => {
+        console.log('res', res)
         if (
           res?.data?.keys &&
-          res?.data?.keys.filter((i) => i.certificateName === certName)[0]
+          res?.data?.keys.filter((i) => i.name === certName)[0]
         ) {
           setSearchSelected(
-            res?.data?.keys.filter((i) => i.certificateName === certName)
+            res?.data?.keys.filter((i) => i.name === certName)
           );
           setResponse({ status: 'success' });
         } else {
           fetchCertificateDetail(certType, certName);
         }
       })
-      .catch(() => {
+      .catch((e) => {
+        console.log('that shit did not work', e)
         setSearchSelected([{ certificateName: certName, certType }]);
         setResponse({ status: 'success' });
       });
   };
 
   const onSearchItemSelected = (v) => {
+    console.log('onSearchItemSelected', v)
     if (!v.isOnboardCert) {
       setResponse({ status: 'loading' });
       fetchAllCertificateDetail(v.type, v.name);
@@ -773,7 +781,8 @@ const CertificatesDashboard = () => {
 
   useEffect(() => {
     if (searchSelected.length === 1) {
-      history.push(`/certificates/${searchSelected[0].certificateName}`);
+      history.push(`/certificates/${searchSelected[0].name}`);
+      console.log("pushed search", `/certificates/${searchSelected[0].name}`)
       setListItemDetails(searchSelected[0]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

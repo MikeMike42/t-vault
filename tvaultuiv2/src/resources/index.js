@@ -63,13 +63,13 @@ const Resources = {
   noTransferOwnerAvailable:
     'Certificate may not be approved or rejected.Please follow the instructions mentioned in email',
   certificateGuide1:
-    'Ensure you are a member of the self-service administration group in AD for your respective application. You can request access from the owner of your application at <a href="https://access.t-mobile.com" target="_blank">Cloud Access</a>. If you are not a member of one or more of these groups you will not be able to create certificates yourself.',
+    'Check whether the certificate you need is already in the list on the left. If one has already been created by a team member you can simply download the existing certificate. If you need the password to download a certificate please reach out to a team member.',
   certificateGuide2:
-    'Currently only the standard SSL Certificate template is used to create certificates, this includes: <br/> Signature algorithm: SHA256-RSA. <br/>Key usage : digitalSignature, keyEncipherment. <br/>Extended key usage : serverAuth for Internal.',
+    'If the certificate you are looking for has not yet been created, use the below form to create a new internal certificate, which will then be available for download.',
   certificateGuide3:
-    'If you need a non-standard certificate please reach out to Cloud Support work with them to create this for you. This functionality will be developed and incorporated into T-Vault at a later date.',
+    'Currently only the standard SSL Certificate template is used to create certificates, this includes: </br>Signature algorithm: SHA256-RSA.</br>Key usage : digitalSignature, keyEncipherment.</br>Only internal certificates are supported at this time.',
   certificateGuide4:
-    'Suggestions for improvements and features are welcome, please reach out to T-Vault@T-Mobile.com if you have any to share. For more information on how to manage certificates please go <a href="https://ccoe.docs.t-mobile.com/t-vault/user-interface/manage_certificates/" target="_blank">here</a>.',
+    'Suggestions for improvements and features are welcome, please reach out to Livingston.Mike@ace.aaa.com if you have any to share. For more information on how to manage certificates please go <a href="https://ccoe.docs.t-mobile.com/t-vault/user-interface/manage_certificates/" target="_blank">here</a>.',
   iamServiceAccountDesc:
     'IAM Service Accounts can only be modified in AWS/IAM. You can only view the details of this IAM Service Account and rotate the associated secret within T-vault.',
   noAppRolesAvailable:

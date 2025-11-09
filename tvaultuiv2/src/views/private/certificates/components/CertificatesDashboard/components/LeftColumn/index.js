@@ -148,6 +148,9 @@ const LeftColumn = (props) => {
     setSelectedCert(0);
   };
 
+  console.log("Path: ", history.location.pathname)
+  console.log("certificate list", certificateList)
+
   return (
     <ComponentError>
       <>
@@ -155,13 +158,13 @@ const LeftColumn = (props) => {
           <ListFolderWrap
             key={index}
             to={{
-              pathname: `/certificates/${certificate.certificateName}`,
+              pathname: `/certificates/${certificate.name}`,
               state: { data: certificate },
             }}
             onClick={() => onLinkClicked(certificate)}
             active={
               history.location.pathname ===
-              `/certificates/${certificate.certificateName}`
+              `/certificates/${certificate.name}`
                 ? 'true'
                 : 'false'
             }

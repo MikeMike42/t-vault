@@ -178,7 +178,7 @@ const CertificateSelectionTabs = (props) => {
     setResponse({ status: 'loading' });
     console.log('getting the dets', certificateDetail)
     setUserDetails([]);
-    const url = `/sslcert/certificate/${certificateDetail.type}?certificate_name=${certificateDetail.name}`;
+    const url = `/sslcert/certificate/internal?certName=${certificateDetail.name}`;
     apiService
       .getCertificateDetail(url)
       .then((res) => {

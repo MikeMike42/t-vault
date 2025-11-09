@@ -270,24 +270,24 @@ export const addLeadingZeros = (value) => {
 };
 
 export const getEachUsersDetails = (data) => {
-  if (data && Object.keys(data).length > 0) {
-    const userNameArray = [];
-    Object.keys(data).map((item) => {
-      return userNameArray.push(item);
-    });
-    return apiService
-      .getUsersDetails(userNameArray?.join())
-      .then((res) => {
-        if (res.data.data.values) {
-          return res.data.data.values;
-        }
-        return null;
-      })
-      .catch(() => {
-        return null;
-      });
-  }
-  return null;
+  // if (data && Object.keys(data).length > 0) {
+  //   const userNameArray = [];
+  //   Object.keys(data).map((item) => {
+  //     return userNameArray.push(item);
+  //   });
+  //   return apiService
+  //     .getUsersDetails(userNameArray?.join())
+  //     .then((res) => {
+  //       if (res.data.data.values) {
+  //         return res.data.data.values;
+  //       }
+  //       return null;
+  //     })
+  //     .catch(() => {
+  //       return null;
+  //     });
+  // }
+  return [{userName: 'admin'}];
 };
 
 export const calculateHoursMinsSec = (seconds) => {

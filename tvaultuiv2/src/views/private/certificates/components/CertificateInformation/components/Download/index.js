@@ -83,14 +83,14 @@ const Download = (props) => {
       })
       .then((res) => {
         onDownloadChange('success', null);
-        // const data = JSON.parse(res.data)
         console.log('res', res)
-        // FileDownload(
-        //   data,
-        //   `test.${type}`//`${certificateMetaData.name}.${type}`
-        // );
+        FileDownload(
+          res.data,
+          `${payload.certificateName}.${type}`
+        );
       })
       .catch((e) => {
+        console.error(e)
         setSuccessErrorModal(true);
         if (e?.response?.data?.errors && e?.response?.data?.errors[0]) {
           setSuccessErrorDetails({
@@ -118,6 +118,7 @@ const Download = (props) => {
         `${certificateMetaData.certType}`
       )
       .then((res) => {
+        console.log("res2", res)
         onDownloadChange('success', null);
         FileDownload(
           res.data,

@@ -352,7 +352,7 @@ const CreateCertificates = (props) => {
   useEffect(() => {
     if (!autoLoader && notifyEmail?.length > 2) {
       if (notifyUserSelected?.userEmail && searchBy !== 'GroupEmail') {
-        if (notifyEmail !== notifyUserSelected?.userEmail.toLowerCase()) {
+        if (notifyEmail !== notifyUserSelected?.userEmail?.toLowerCase()) {
           setIsValidEmail(false);
           setEmailErrorMsg('Please enter a valid user or not available!');
         } else {
@@ -399,15 +399,15 @@ const CreateCertificates = (props) => {
 
   useEffect(() => {
     setResponseType(0);
-    if (state) {
+    // if (state) {
       setResponseType(null);
-      if (state?.userEmail) {
-        setOwnerEmail(state.userEmail);
-      }
-      if (
-        state?.applicationNameList !== 'error' &&
-        state?.applicationNameList?.length > 0
-      ) {
+    //   if (state?.userEmail) {
+    //     setOwnerEmail(state.userEmail);
+    //   }
+    //   if (
+    //     state?.applicationNameList !== 'error' &&
+    //     state?.applicationNameList?.length > 0
+    //   ) {
         if (
           !JSON.parse(sessionStorage.getItem('isAdmin')) &&
           !JSON.parse(sessionStorage.getItem('isCertAdmin'))
@@ -416,18 +416,18 @@ const CreateCertificates = (props) => {
           setSelfserviceAppName(stringVal?.split(','));
         }
         const array = [];
-        state.applicationNameList.map((item) => {
+        ['ClaimCenter', 'ContactManager', 'Other'].map((item) => {
           if (item.appID !== 'oth') {
             array.push(item);
           }
           return null;
         });
         setAllApplication([...array]);
-      } else if (state?.applicationNameList === 'error') {
-        setResponseType(-1);
-        setToastMessage('Error occured while fetching the application name!');
-      }
-    }
+      // } else if (state?.applicationNameList === 'error') {
+      //   setResponseType(-1);
+      //   setToastMessage('Error occured while fetching the application name!');
+      // }
+    // }
   }, [state]);
 
   useEffect(() => {
@@ -474,7 +474,7 @@ const CreateCertificates = (props) => {
       setErrorMessage(
         'Certificate name can have alphabets, numbers, . and - characters only, and it should not start or end with special characters(-.)'
       );
-    } else if (value.toLowerCase()?.includes('.t-mobile.com')) {
+    } else if (value?.toLowerCase()?.includes('.t-mobile.com')) {
       setCertNameError(true);
       setErrorMessage('Please enter certificate name without .t-mobile.com.');
     } else {
@@ -488,7 +488,7 @@ const CreateCertificates = (props) => {
       setDnsError(true);
       setErrorDnsMessage('DNS name already added!');
     } else {
-      setDnsArray((prev) => [...prev, val.toLowerCase()]);
+      setDnsArray((prev) => [...prev, val?.toLowerCase()]);
       setDnsName('');
       setDnsError(false);
       setErrorDnsMessage('');
@@ -518,7 +518,7 @@ const CreateCertificates = (props) => {
       setErrorDnsMessage(
         'DNS can have alphabets, numbers, . and - characters only, and it should not start or end with special characters(-.)'
       );
-    } else if (value && value.toLowerCase()?.includes('.t-mobile.com')) {
+    } else if (value && value?.toLowerCase()?.includes('.t-mobile.com')) {
       setDnsError(true);
       setErrorDnsMessage('Please enter DNS without .t-mobile.com.');
     } else {
@@ -553,7 +553,7 @@ const CreateCertificates = (props) => {
         appName: obj.appID,
         certOwnerEmailId: ownerEmail,
         certOwnerNTId: state.username,
-        certType: certificateType.toLowerCase(),
+        certType: certificateType?.toLowerCase(),
         keyUsageValue: setKeyValue,
         certificateName: certName,
         dnsList,
@@ -589,34 +589,34 @@ const CreateCertificates = (props) => {
 
   const getNotificationEmailData = (selectedApp) => {
     if (selectedApp !== undefined) {
-      setNotifyEmailStatus({ status: 'searching' });
-      apiService
-        .getNotificationEmails(selectedApp?.appID)
-        .then((res) => {
-          if (res?.data?.spec) {
-            const array = [];
-            array.push(ownerEmail.toLowerCase());
-            if (
-              res.data.spec.projectLeadEmail &&
-              array.indexOf(res.data.spec.projectLeadEmail?.toLowerCase()) ===
-                -1
-            ) {
-              array.push(res.data.spec.projectLeadEmail.toLowerCase());
-            }
-            if (
-              res.data.spec.opsContactEmail &&
-              array.indexOf(res.data.spec.opsContactEmail?.toLowerCase()) === -1
-            ) {
-              array.push(res.data.spec.opsContactEmail.toLowerCase());
-            }
-            setNotificationEmailList([...array]);
-          }
-          setNotifyEmailStatus({ status: 'available' });
-        })
-        .catch(() => {
-          setResponseType(-1);
-          setToastMessage('Something went wrong while fetching emails list!');
-        });
+      // setNotifyEmailStatus({ status: 'searching' });
+      // apiService
+      //   .getNotificationEmails(selectedApp?.appID)
+      //   .then((res) => {
+      //     if (res?.data?.spec) {
+      //       const array = [];
+      //       array.push(ownerEmail.toLowerCase());
+      //       if (
+      //         res.data.spec.projectLeadEmail &&
+      //         array.indexOf(res.data.spec.projectLeadEmail?.toLowerCase()) ===
+      //           -1
+      //       ) {
+      //         array.push(res.data.spec.projectLeadEmail.toLowerCase());
+      //       }
+      //       if (
+      //         res.data.spec.opsContactEmail &&
+      //         array.indexOf(res.data.spec.opsContactEmail?.toLowerCase()) === -1
+      //       ) {
+      //         array.push(res.data.spec.opsContactEmail.toLowerCase());
+      //       }
+      //       setNotificationEmailList([...array]);
+      //     }
+      //     setNotifyEmailStatus({ status: 'available' });
+      //   })
+      //   .catch(() => {
+      //     setResponseType(-1);
+      //     setToastMessage('Something went wrong while fetching emails list!');
+      //   });
     }
   };
 
@@ -756,7 +756,7 @@ const CreateCertificates = (props) => {
 
   const onAddEmailClicked = () => {
     const obj = notificationEmailList.find(
-      (item) => item.toLowerCase() === notifyEmail.toLowerCase()
+      (item) => item?.toLowerCase() === notifyEmail?.toLowerCase()
     );
     if (!emailError && isValidEmail && notifyEmail !== '') {
       if (!obj) {
@@ -949,7 +949,7 @@ const CreateCertificates = (props) => {
                           onCertificateNameChange(e);
                         }}
                       />
-                      <EndingBox width="14rem">.t-mobile.com</EndingBox>
+                      <EndingBox width="14rem">. jks</EndingBox>
                     </InputEndWrap>
                   </InputFieldLabelWrapper>
                   <InputFieldLabelWrapper>
@@ -1026,7 +1026,7 @@ const CreateCertificates = (props) => {
                           onKeyDown={(e) => onAddDnsClicked(e)}
                         />
                         <EndingBox width="17rem">
-                          .t-mobile.com
+                          . jks
                           <ReturnIcon onClick={() => onAddDnsKeyClicked()}>
                             <KeyboardReturnIcon />
                           </ReturnIcon>

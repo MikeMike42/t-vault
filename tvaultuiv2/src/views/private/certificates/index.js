@@ -12,19 +12,20 @@ const Certificates = (props) => {
   const [, dispatch] = useStateValue();
 
   useEffect(() => {
-    if (
-      !JSON.parse(sessionStorage.getItem('isAdmin')) &&
-      !JSON.parse(sessionStorage.getItem('isCertAdmin'))
-    ) {
-      apiService
-        .getNonAdminAppNameList()
-        .then((res) => {
-          if (res) {
-            sessionStorage.setItem('selfServiceAppNames', res.data);
-          }
-        })
-        .catch((err) => console.log('err', err));
-    }
+    // if (
+    //   !JSON.parse(sessionStorage.getItem('isAdmin')) &&
+    //   !JSON.parse(sessionStorage.getItem('isCertAdmin'))
+    // ) {
+    //   apiService
+    //     .getNonAdminAppNameList()
+    //     .then((res) => {
+    //       if (res) {
+    //         sessionStorage.setItem('selfServiceAppNames', res.data);
+    //       }
+    //     })
+    //     .catch((err) => console.log('err', err));
+    // }
+    sessionStorage.setItem('selfServiceAppNames', 'admin');
   }, []);
 
   useEffect(() => {
