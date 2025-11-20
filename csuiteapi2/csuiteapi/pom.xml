@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>ace.claims</groupId>
 	<artifactId>csuiteapi</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<packaging>war</packaging>
 	<name>csuiteapi</name>
 	<description>API for CSuite Application</description>

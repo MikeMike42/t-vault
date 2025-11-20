@@ -133,11 +133,11 @@ const CertificateRelease = (props) => {
             <GlobalModalWrapper extraCss={extraCss}>
               <HeaderWrapper>Release Details</HeaderWrapper>
               <EachValueWrap>
-                <Label>Certificate Name:</Label>
+                <Label>Keystore Name:</Label>
                 <Value>{certificateData.certificateName}</Value>
               </EachValueWrap>
               <EachValueWrap>
-                <Label>Certificate Type:</Label>
+                <Label>Keystore Type:</Label>
                 <Value capitalize="capitalize">
                   {certificateData.certType}
                 </Value>

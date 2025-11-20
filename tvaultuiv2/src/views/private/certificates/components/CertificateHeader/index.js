@@ -84,16 +84,16 @@ const CertificateHeader = (props) => {
                 {ReactHtmlParser(Strings.Resources.certificateGuide2)}
               </InfoLine>
 
-              <InfoLine>
+              {/* <InfoLine>
                 <Span>
                   <strong>3:</strong>
                 </Span>
                 {ReactHtmlParser(Strings.Resources.certificateGuide3)}
-              </InfoLine>
+              </InfoLine> */}
 
               <InfoLine>
                 <Span>
-                  <strong>4:</strong>
+                  <strong>3:</strong>
                 </Span>
                 {ReactHtmlParser(Strings.Resources.certificateGuide4)}
               </InfoLine>

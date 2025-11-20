@@ -23,6 +23,7 @@ import apiService from '../../apiService';
 import EditCertificate from '../EditCertificate';
 import TransferCertificate from '../TransferCertificateOwner';
 import CreateCertificates from '../../CreateCertificates';
+import CertificateFileUploader from '../CertificateUpload';
 import LeftColumn from './components/LeftColumn';
 import { useStateValue } from '../../../../../contexts/globalState';
 import SelectWithCountComponent from '../../../../../components/FormFields/SelectWithCount';
@@ -1097,33 +1098,6 @@ const CertificatesDashboard = () => {
             {response.status === 'loading' && (
               <ScaledLoader contentHeight="80%" contentWidth="100%" />
             )}
-            {/* {response.status === 'failed' && (
-              <EmptyContentBox>
-                <Error
-                  description={errorMsg || 'Error while fetching certificates!'}
-                />
-              </EmptyContentBox>
-            )} */}
-            {/* {
-              <NoDataWrapper>
-                <NoListWrap>
-                  <NoData
-                    imageSrc={noCertificateIcon}
-                    description="Create a certificate to get started!"
-                    actionButton={
-                      <FloatingActionButtonComponent
-                        href="/certificates/create-ceritificate"
-                        color="secondary"
-                        icon="add"
-                        tooltipTitle="Create New Certificate"
-                        tooltipPos="bottom"
-                      />
-                    }
-                    customStyle={customStyle}
-                  />
-                </NoListWrap>
-              </NoDataWrapper>
-            } */}
             {response.status === 'success' && (
               <>
                 {certificateList?.length > 0 && (
@@ -1163,13 +1137,13 @@ const CertificatesDashboard = () => {
                         <NoListWrap>
                           <NoData
                             imageSrc={noCertificateIcon}
-                            description="Create a certificate to get started!"
+                            description="Create a keystore to get started!"
                             actionButton={
                               <FloatingActionButtonComponent
                                 href="/certificates/create-ceritificate"
                                 color="secondary"
                                 icon="add"
-                                tooltipTitle="Create New Certificate"
+                                tooltipTitle="Create New Keystore"
                                 tooltipPos="bottom"
                               />
                             }
@@ -1182,15 +1156,24 @@ const CertificatesDashboard = () => {
                 )}
               </>
             )}
-            {certificateList.length > 0 && (
+            {certificateList.length > 0 && (           
               <FloatBtnWrapper>
                 <FloatingActionButtonComponent
                   href="/certificates/create-ceritificate"
                   color="secondary"
                   icon="add"
-                  tooltipTitle="Create New Certificate"
+                  tooltipTitle="Create New Keystore"
                   tooltipPos="left"
                 />
+                <div style={{ marginTop: '1.25rem' }}>
+                  <FloatingActionButtonComponent
+                    href="/certificates/upload-ceritificate"
+                    color="secondary"
+                    icon="upload"
+                    tooltipTitle="Upload Keystore"
+                    tooltipPos="left"
+                  />
+                </div>
               </FloatBtnWrapper>
             )}
           </LeftColumnSection>
@@ -1276,6 +1259,13 @@ const CertificatesDashboard = () => {
                 <EditCertificate
                   refresh={(status) => onCloseAllModal(status)}
                 />
+              )}
+            />
+            <Route
+              exact
+              path="/certificates/upload-ceritificate"
+              render={() => (
+                <CertificateFileUploader />
               )}
             />
           </Switch>

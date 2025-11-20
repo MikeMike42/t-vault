@@ -107,11 +107,11 @@ const PreviewCertificate = (props) => {
           <Value>{owner || 'N/A'}</Value>
         </EachDetail>
         <EachDetail>
-          <Label>Certificate Type:</Label>
+          <Label>Keystore Type:</Label>
           <Value capitalize="capitalize">{certificateType || 'N/A'}</Value>
         </EachDetail>
         <EachDetail>
-          <Label>Certificate Name:</Label>
+          <Label>Keystore Name:</Label>
           <Value>{certName || 'N/A'}</Value>
         </EachDetail>
         <EachDetail>

@@ -4,7 +4,7 @@ const hostName = () => {
   return window.location.origin;
 };
 
-let baseUrl = 'http://localhost:8080';
+let baseUrl = 'http://localhost:8082'; // /csuiteapi-0.0.1
 let redirectUrl = 'http://localhost:3000';
 
 // if (process.env.NODE_ENV === 'development') {

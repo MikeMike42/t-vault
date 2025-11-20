@@ -60,6 +60,9 @@ const onDownloadCertificate = (name, format, certType) =>
 const onPrivateDownload = (payload) =>
   api.post('/sslcert/certificates/download', payload);
 
+const uploadKeystore = (payload) =>
+  api.post('/sslcert/certificates/upload', payload);
+
 const onReleasecertificate = (name, type, reason) =>
   api.post(`/sslcert/unlink/${name}/${type}/${reason}`);
 
@@ -111,4 +114,5 @@ export default {
   searchByGroupEmail,
   validateExternalCert,
   searchAllCert,
+  uploadKeystore,
 };

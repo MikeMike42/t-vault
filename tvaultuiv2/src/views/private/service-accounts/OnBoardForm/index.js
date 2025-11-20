@@ -947,9 +947,7 @@ const OnBoardForm = (props) => {
                     <HeaderInfoWrapper>
                       <SvcIcon alt="safe-icon" src={svcHeaderBgimg} />
                       <InfoLine>
-                        T-Vault can be used to manage the life cycle of
-                        Corporate (CORP) active directory service accounts, for
-                        features like password resets and expiry.
+                        C-Suite is now officially in Beta.
                       </InfoLine>
                     </HeaderInfoWrapper>
                     <ServiceAcoountHelp

@@ -24,7 +24,7 @@ class RendetionError extends React.Component {
       console.error('rendetion', error, errorInfo);
       return (
         <div>
-          <h2>Oops!! Something is nor right!!</h2>
+          <h2>Oops!! Something is not right!!</h2>
         </div>
       );
     }

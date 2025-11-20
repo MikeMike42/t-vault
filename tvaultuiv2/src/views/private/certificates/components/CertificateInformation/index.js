@@ -94,6 +94,8 @@ const CertificateInformation = (props) => {
     }
   }, [certificateMetaData]);
 
+  console.log('meta', certificateMetaData)
+
   return (
     <ComponentError>
       <>
@@ -113,13 +115,13 @@ const CertificateInformation = (props) => {
                   <Value>{certificateMetaData.certOwnerEmailId || 'N/A'}</Value>
                 </EachDetail>
                 <EachDetail>
-                  <Label>Certificate Type:</Label>
+                  <Label>Keystore Type:</Label>
                   <Value capitalize="capitalize">
                     {certificateMetaData.type?.toUpperCase() || 'N/A'}
                   </Value>
                 </EachDetail>
                 <EachDetail>
-                  <Label>Certificate Name:</Label>
+                  <Label>Keystore Name:</Label>
                   <Value>{certificateMetaData.name || 'N/A'}</Value>
                 </EachDetail>
                 <EachDetail>
@@ -127,11 +129,9 @@ const CertificateInformation = (props) => {
                   <Value>{certificateMetaData.applicationTag || 'N/A'}</Value>
                 </EachDetail>
                 <EachDetail>
-                  <Label>Validity:</Label>
+                  <Label>Earliest Certificate Expiry Date:</Label>
                   {certificateMetaData?.createDate ? (
                     <Value>
-                      {new Date(certificateMetaData?.createDate).toDateString()}
-                      {' - '}
                       {new Date(certificateMetaData?.expiryDate).toDateString()}
                     </Value>
                   ) : (
@@ -139,8 +139,8 @@ const CertificateInformation = (props) => {
                   )}
                 </EachDetail>
                 <EachDetail>
-                  <Label>Signature Algorithm:</Label>
-                  <Value>SHA256-RSA</Value>
+                  <Label>Signature Algorithms for Certificates:</Label>
+                  <Value>{certificateMetaData.algorithmNames}</Value>
                 </EachDetail>
                 <EachDetail>
                   <Label>Key Usage:</Label>
@@ -163,18 +163,6 @@ const CertificateInformation = (props) => {
                       : 'Entrust CA'}
                   </Value>
                 </EachDetail>
-                {certificateMetaData.dnsNames && dnsNames.length > 0 && (
-                  <EachDetail>
-                    <Label>DNS:</Label>
-                    <>
-                      {dnsNames?.map((item) => {
-                        return (
-                          <DnsName key={item}>{item.replace(/"/g, '')}</DnsName>
-                        );
-                      })}
-                    </>
-                  </EachDetail>
-                )}
               </DetailsWrap>
             ) : (
               <ErrorWrap>

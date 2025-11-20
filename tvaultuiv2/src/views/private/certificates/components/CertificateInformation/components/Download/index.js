@@ -77,7 +77,7 @@ const Download = (props) => {
     console.log('payload', payload)
     console.log('type', type)
     axios
-      .post(`${configUrl.baseUrl}/sslcert/certificates/download`, payload, {
+      .post(`${configUrl.baseUrl}/sslcert/certificates/download?certName=${payload.certificateName}`, payload, {
         headers,
         responseType: 'blob',
       })

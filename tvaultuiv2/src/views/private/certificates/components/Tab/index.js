@@ -183,6 +183,7 @@ const CertificateSelectionTabs = (props) => {
       .getCertificateDetail(url)
       .then((res) => {
         if (res.data.keys && res.data.keys[0]) {
+          console.log('metadata', res.data)
           setCertificateMetaData({ ...res.data.keys[0] });
           getEachUser(res.data.keys[0].users);
         } else if (res.data) {

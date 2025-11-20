@@ -2,6 +2,7 @@
 /* eslint-disable react/jsx-curly-newline */
 /* eslint-disable react/jsx-wrap-multilines */
 import React, { useState, useEffect, useCallback } from 'react';
+import certIcon from '../../../../assets/cert-icon.svg';
 import { debounce } from 'lodash';
 import ReactHtmlParser from 'react-html-parser';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -69,6 +70,12 @@ const LeftIcon = styled.img`
   }
 `;
 
+const CertIcon = styled.img`
+  height: 5.7rem;
+  width: 5rem;
+  margin-right: 2rem;
+`;
+
 const CreateCertificateForm = styled.form`
   display: ${(props) => (props.showPreview ? 'none' : 'flex')};
   flex-direction: column;
@@ -115,6 +122,22 @@ const RadioWrap = styled.div`
 `;
 
 const Value = styled.span``;
+
+const EachLink = styled.a`
+  margin: 0 1rem;
+  color: #fff;
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  text-decoration: underline;
+  @media (max-width: 768px) {
+    margin: 0 0.5rem;
+  }
+  svg {
+    margin-right: 0.5rem;
+  }
+`;
 
 const FieldInstruction = styled.p`
   color: ${(props) => props.theme.customColor.label.color};
@@ -178,7 +201,7 @@ const InputRequiredWrap = styled.div`
 
 const EndingBox = styled.div`
   background-color: ${(props) =>
-    props.theme.customColor.primary.backgroundColor};
+    props.disabled ? "rgba(0, 0, 0, 0.12)" : props.theme.customColor.primary.backgroundColor};
   color: ${(props) => props.theme.customColor.primary.color};
   width: ${(props) => props.width};
   display: flex;
@@ -472,11 +495,8 @@ const CreateCertificates = (props) => {
     if (!InputValidation(e.target.value)) {
       setCertNameError(true);
       setErrorMessage(
-        'Certificate name can have alphabets, numbers, . and - characters only, and it should not start or end with special characters(-.)'
+        'Keystore name can have alphabets, numbers, . and - characters only, and it should not start or end with special characters(-.)'
       );
-    } else if (value?.toLowerCase()?.includes('.t-mobile.com')) {
-      setCertNameError(true);
-      setErrorMessage('Please enter certificate name without .t-mobile.com.');
     } else {
       setCertNameError(false);
       setErrorMessage('');
@@ -862,16 +882,16 @@ const CreateCertificates = (props) => {
                     onClick={() => handleClose()}
                   />
                   {!showPreview ? (
-                    <Typography variant="h5">Create Certificate</Typography>
+                    <Typography variant="h5">Create Keystore</Typography>
                   ) : (
-                    <Typography variant="h5">Certificate Preview</Typography>
+                    <Typography variant="h5">Keystore Preview</Typography>
                   )}
                 </HeaderWrapper>
                 <CertificateHeader showPreview={showPreview} />
                 <ContainerOwnerWrap showPreview={showPreview}>
                   <Container>
                     <Label>Container:</Label>
-                    <Value>VenafiBin_12345</Value>
+                    <Value>Claims Product Non-Prod</Value>
                   </Container>
                   <Tooltip
                     classes={tooltipClasses}
@@ -913,7 +933,7 @@ const CreateCertificates = (props) => {
                         placement="right"
                       >
                         <InputLabel>
-                          Certificate Type
+                          Keystore Type
                           <RequiredCircle margin="1.3rem" />
                         </InputLabel>
                       </Tooltip>
@@ -934,11 +954,12 @@ const CreateCertificates = (props) => {
                   </RadioWrap>
                   <InputFieldLabelWrapper>
                     <InputLabel>
-                      Certificate Name
+                      Keystore Name
                       <RequiredCircle margin="1.3rem" />
                     </InputLabel>
                     <InputEndWrap>
                       <TextFieldComponent
+                        readOnly={true}
                         value={certName}
                         placeholder="Enter a name here..."
                         fullWidth
@@ -949,7 +970,7 @@ const CreateCertificates = (props) => {
                           onCertificateNameChange(e);
                         }}
                       />
-                      <EndingBox width="14rem">. jks</EndingBox>
+                      <EndingBox disabled width="14rem">. jks</EndingBox>
                     </InputEndWrap>
                   </InputFieldLabelWrapper>
                   <InputFieldLabelWrapper>
@@ -965,6 +986,7 @@ const CreateCertificates = (props) => {
                       </InputLabel>
                     </Tooltip>
                     <AutoCompleteComponent
+                      disabled
                       icon="search"
                       options={[...allApplication.map((item) => item.appName)]}
                       searchValue={applicationName}
@@ -983,76 +1005,20 @@ const CreateCertificates = (props) => {
                       </InputFieldError>
                     )}
                   </InputFieldLabelWrapper>
-                  <Tooltip
-                    classes={tooltipClasses}
-                    arrow
-                    title="Option to create a SAN Certificate with additional domain names"
-                    placement="top"
-                  >
-                    <IncludeDnsWrap>
-                      <SwitchComponent
-                        checked={isDns}
-                        handleChange={(e) => {
-                          setIsDns(e.target.checked);
-                          setDnsName('');
-                        }}
-                        name="dns"
-                      />
-                      <InputLabel>Enable Additional DNS</InputLabel>
-                    </IncludeDnsWrap>
-                  </Tooltip>
-                  {isDns && (
-                    <InputFieldLabelWrapper>
-                      <Tooltip
-                        classes={tooltipClasses}
-                        arrow
-                        title="Option to create a SAN Certificate with additional domain names"
-                        placement="top"
-                      >
-                        <InputLabel>Add DNS</InputLabel>
-                      </Tooltip>
-
-                      <InputEndWrap>
-                        <TextFieldComponent
-                          value={dnsName}
-                          placeholder="Add DNS"
-                          fullWidth
-                          name="dnsName"
-                          onChange={(e) => {
-                            onDnsNameChange(e);
-                          }}
-                          error={dnsError}
-                          helperText={dnsError ? errorDnsMessage : ''}
-                          onKeyDown={(e) => onAddDnsClicked(e)}
-                        />
-                        <EndingBox width="17rem">
-                          . jks
-                          <ReturnIcon onClick={() => onAddDnsKeyClicked()}>
-                            <KeyboardReturnIcon />
-                          </ReturnIcon>
-                        </EndingBox>
-                      </InputEndWrap>
-                      <ArrayList>
-                        {dnsArray.map((item) => {
-                          return (
-                            <EachItem key={item}>
-                              <Name>{item}</Name>
-                              <RemoveIcon
-                                src={removeIcon}
-                                alt="remove"
-                                onClick={() => onRemoveClicked(item)}
-                              />
-                            </EachItem>
-                          );
-                        })}
-                      </ArrayList>
-                    </InputFieldLabelWrapper>
-                  )}
+                  <InputFieldLabelWrapper>
+                    <EachLink
+                      href={"http://www.google.com"}
+                      target="_blank"
+                      // rel="noopener noreferrer"
+                      decoration="none"
+                    >
+                      Link to Guidewire Cloud Console Keystore Tool
+                    </EachLink>
+                  </InputFieldLabelWrapper>
                   <NotificationEmailsWrap>
                     {notifyEmailStatus.status === 'not-available' && (
                       <FieldInstruction>
-                        Select application name and add/update notification
-                        emails.
+                        Select application and keystore names.
                       </FieldInstruction>
                     )}
                     {notifyEmailStatus.status === 'available' && (

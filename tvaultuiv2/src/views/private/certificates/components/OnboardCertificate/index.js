@@ -670,7 +670,7 @@ const OnboardCertificates = (props) => {
               </PreviewWrap>
               <OnboardFormWrap showPreviewData={showPreviewData}>
                 <EachValueWrap>
-                  <Label>Certificate Name:</Label>
+                  <Label>Keystore Name:</Label>
                   <Value>{certificateData.certificateName}</Value>
                 </EachValueWrap>
                 <InputFieldLabelWrapper postion>
@@ -713,6 +713,7 @@ const OnboardCertificates = (props) => {
                     <RequiredCircle margin="1.3rem" />
                   </InputLabel>
                   <AutoCompleteComponent
+                    disabled
                     icon="search"
                     options={[...allApplication.map((item) => item.appName)]}
                     searchValue={applicationName}

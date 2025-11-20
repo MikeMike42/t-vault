@@ -1,8 +1,6 @@
 package ace.claims.csuiteapi.models;
 
-import org.springframework.core.io.InputStreamResource;
-
-public class Certificate {
+public class Keystore {
     private String name;
     private String type;
     private String containerName;
@@ -11,14 +9,15 @@ public class Certificate {
     private String createDate;
     private String expiryDate;
     private String[] dnsNames;
+    private String algorithmNames;
 
-    public Certificate(String name, String type) {
+    public Keystore(String name, String type) {
         this.name = name;
         this.type = type;
     }
 
-    public Certificate(String name, String[] dnsNames, String expiryDate, String createDate, String applicationTag,
-                       String certOwnerEmailId, String containerName, String type) {
+    public Keystore(String name, String[] dnsNames, String expiryDate, String createDate, String applicationTag,
+                    String certOwnerEmailId, String containerName, String type, String algorithmNames) {
         this.name = name;
         this.dnsNames = dnsNames;
         this.expiryDate = expiryDate;
@@ -27,6 +26,7 @@ public class Certificate {
         this.certOwnerEmailId = certOwnerEmailId;
         this.containerName = containerName;
         this.type = type;
+        this.algorithmNames = algorithmNames;
     }
 
     public String getName() {
@@ -91,5 +91,13 @@ public class Certificate {
 
     public void setDnsNames(String[] dnsNames) {
         this.dnsNames = dnsNames;
+    }
+
+    public String getAlgorithmNames() {
+        return algorithmNames;
+    }
+
+    public void setAlgorithmNames(String algorithmNames) {
+        this.algorithmNames = algorithmNames;
     }
 }

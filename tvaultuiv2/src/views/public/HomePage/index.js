@@ -14,7 +14,7 @@ import IpadRectangle from '../../../assets/Login/ipad-rectangle.svg';
 import MobRectangle from '../../../assets/Login/mob-rectangle.svg';
 import ButtonComponent from '../../../components/FormFields/ActionButton';
 import Speaker from '../../../assets/Login/speaker.png';
-import LoginHeaderText from '../../../assets/Login/login-header-text.svg';
+import LoginHeaderText from '../../../assets/Login/login-header-text.png';
 import AllGroups from '../../../assets/Login/allgroups.svg';
 import Store from '../../../assets/Login/store.svg';
 import Access from '../../../assets/Login/access.svg';
