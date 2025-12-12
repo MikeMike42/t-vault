@@ -218,6 +218,8 @@ const CertificatesDashboard = () => {
   const [options, setOptions] = useState([]);
   const [onboardCertificates, setOnboardCertificates] = useState([]);
   const [onBoardStatus, setOnboardStatus] = useState({});
+  const [createCertToastResponse, setCreateCertToastResponse] = useState(null);
+	const [createCertToastMessage, setCreateCertToastMessage] = useState('');
 
   const compareCertificates = (array1, array2, type) => {
     if (array2.length > 0) {
@@ -341,7 +343,6 @@ const CertificatesDashboard = () => {
         //   }
         //   setAllCertificates([...allCertificateInternal]);
         // }
-        console.log("this is result", result[1].data)
         result[1].data.forEach(item => {
           // if (result[1]?.data?.next === '-1') {
           //   setHasMore(false);
@@ -524,7 +525,6 @@ const CertificatesDashboard = () => {
     ) {
       setListItemDetails(allCertList[0]);
       history.push(`/certificates/${allCertList[0]?.name}`);
-      console.log("pushed allcert", `/certificates/${allCertList[0]?.name}`)
     } else {
       setListItemDetails({});
     }
@@ -629,7 +629,6 @@ const CertificatesDashboard = () => {
               name: item.name,
               type: 'internal',
             })
-            console.log(item.name)
           })
           // res.data.internal.map((item) =>
           //   allSearchCerts.push({
@@ -726,7 +725,7 @@ const CertificatesDashboard = () => {
   }, [inputSearchValue]);
 
   const fetchCertificateDetail = (certType, certName) => {
-    const url2 = `/sslcert/certificate/${certType}?certName=${certName}`;
+    const url2 = `/sslcert/keystores/${certType}?keystoreName=${certName}`;
     apiService.getCertificateDetail(url2).then((res) => {
       if (res?.data) {
         setSearchSelected([res?.data]);
@@ -738,11 +737,10 @@ const CertificatesDashboard = () => {
   };
 
   const fetchAllCertificateDetail = (certType, certName) => {
-    const url = `/sslcert?certificateName=${certName}&certType=${certType}`;
+    const url = `/sslcert/keystores/internal?keystoreName=${certName}`;
     apiService
       .getCertificateDetail(url)
       .then((res) => {
-        console.log('res', res)
         if (
           res?.data?.keys &&
           res?.data?.keys.filter((i) => i.name === certName)[0]
@@ -756,8 +754,7 @@ const CertificatesDashboard = () => {
         }
       })
       .catch((e) => {
-        console.log('that shit did not work', e)
-        setSearchSelected([{ certificateName: certName, certType }]);
+        setSearchSelected([{ name: certName, type: certType }]);
         setResponse({ status: 'success' });
       });
   };
@@ -775,6 +772,7 @@ const CertificatesDashboard = () => {
       // }
       setOptions([]);
     } else {
+      console.log('setting to v', [v])
       setSearchSelected([v]);
       setCertificateType('Onboard');
     }
@@ -783,7 +781,6 @@ const CertificatesDashboard = () => {
   useEffect(() => {
     if (searchSelected.length === 1) {
       history.push(`/certificates/${searchSelected[0].name}`);
-      console.log("pushed search", `/certificates/${searchSelected[0].name}`)
       setListItemDetails(searchSelected[0]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -921,6 +918,13 @@ const CertificatesDashboard = () => {
     setResponseType(null);
   };
 
+  const onCreateCertToastClose = (reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setCreateCertToastResponse(null);
+  }
+
   /**
    * @function onDeleteCertificateClicked
    * @description function to open the delete modal.
@@ -990,6 +994,7 @@ const CertificatesDashboard = () => {
   };
 
   const renderList = () => {
+    console.log('searchselected', searchSelected)
     return (
       <LeftColumn
         onLinkClicked={(cert) => onLinkClicked(cert)}
@@ -1158,18 +1163,11 @@ const CertificatesDashboard = () => {
             )}
             {certificateList.length > 0 && (           
               <FloatBtnWrapper>
-                <FloatingActionButtonComponent
-                  href="/certificates/create-ceritificate"
-                  color="secondary"
-                  icon="add"
-                  tooltipTitle="Create New Keystore"
-                  tooltipPos="left"
-                />
                 <div style={{ marginTop: '1.25rem' }}>
                   <FloatingActionButtonComponent
                     href="/certificates/upload-ceritificate"
                     color="secondary"
-                    icon="upload"
+                    icon="add"
                     tooltipTitle="Upload Keystore"
                     tooltipPos="left"
                   />
@@ -1182,12 +1180,12 @@ const CertificatesDashboard = () => {
             isDetailsOpen={certificateClicked}
           >
             <Switch>
-              {certificateList[0]?.certificateName && (
+              {certificateList[0]?.name && (
                 <Redirect
                   exact
                   from="/certificates"
                   to={{
-                    pathname: `/certificates/${certificateList[0]?.certificateName.replace(
+                    pathname: `/certificates/${certificateList[0]?.name.replace(
                       '*.',
                       '$.'
                     )}`,
@@ -1265,7 +1263,10 @@ const CertificatesDashboard = () => {
               exact
               path="/certificates/upload-ceritificate"
               render={() => (
-                <CertificateFileUploader />
+                <CertificateFileUploader 
+                  setToastResponse={setCreateCertToastResponse}
+                  setToastMessage={setCreateCertToastMessage}
+                />
               )}
             />
           </Switch>
@@ -1284,6 +1285,22 @@ const CertificatesDashboard = () => {
             open
             onClose={() => onToastClose()}
             message={toastMessage || 'Successful!'}
+          />
+        )}
+        {createCertToastResponse === -1 && (
+          <SnackbarComponent
+            open
+            onClose={() => onCreateCertToastClose()}
+            severity="error"
+            icon="error"
+            message={createCertToastMessage || 'Something went wrong!'}
+          />
+        )}
+        {createCertToastResponse === 1 && (
+          <SnackbarComponent
+            open
+            onClose={() => onCreateCertToastClose()}
+            message={createCertToastMessage || 'Successful'}
           />
         )}
       </>

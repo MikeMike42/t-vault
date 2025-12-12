@@ -156,7 +156,7 @@ const CertificateRelease = (props) => {
                 />
                 <InstructionText>
                   Why do you need to remove this item for the system? This will
-                  help us improve T-Vault.
+                  help us improve C-Suite.
                 </InstructionText>
               </InputFieldLabelWrapper>
               <CancelSaveWrapper>

@@ -139,57 +139,58 @@ const CertificateSelectionTabs = (props) => {
   };
 
   const getAllCertificateDetail = () => {
-    setResponse({ status: 'loading' });
-    setUserDetails([]);
-    const certName = certificateDetail.name;
-    const url = `/sslcert?certificateName=${certificateDetail.name}&certType=${certificateDetail.type}`;
-    apiService
-      .getCertificateDetail(url)
-      .then(async (res) => {
-        if (
-          res.data.keys &&
-          res?.data?.keys.filter((i) => i.name === certName)[0]
-        ) {
-          await getEachUser(
-            res?.data?.keys.filter((i) => i.name === certName)[0]
-              .users
-          );
-          setCertificateMetaData({
-            ...res?.data?.keys.filter((i) => i.name === certName)[0],
-          });
-        } else if (res.data) {
-          await getEachUser(res.data);
-          setCertificateMetaData({ ...res.data });
-        } else {
-          setCertificateMetaData({});
-        }
-      })
-      .catch((err) => {
-        if (err?.response?.data?.errors && err.response.data.errors[0]) {
-          setErrorMessage(err.response.data.errors[0]);
-        }
-        setResponse({ status: 'error' });
-        setValue(0);
-        setHasPermission(false);
-      });
+    fetchCertificateDetail()
+    // const certName = certificateDetail.name;
+    // const url = `/sslcert/certificate/internal?certName=${certificateDetail.name}`;//certificateName=${certificateDetail.name}&certType=${certificateDetail.type}`;
+    // apiService
+    //   .getCertificateDetail(url)
+    //   .then(async (res) => {
+    //     if (
+    //       res.data.keys &&
+    //       res?.data?.keys.filter((i) => i.name === certName)[0]
+    //     ) {
+    //       setCertificateMetaData({ ...res.data });
+    //       // await getEachUser(
+    //       //   res?.data?.keys.filter((i) => i.name === certName)[0]
+    //       //     .users
+    //       // );
+    //       // setCertificateMetaData({
+    //       //   ...res?.data?.keys.filter((i) => i.name === certName)[0],
+    //       // });
+    //     } else if (res.data) {
+    //       // await getEachUser(res.data);
+    //       setCertificateMetaData({ ...res.data });
+    //     } else {
+    //       setCertificateMetaData({});
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     if (err?.response?.data?.errors && err.response.data.errors[0]) {
+    //       setErrorMessage(err.response.data.errors[0]);
+    //     }
+    //     setResponse({ status: 'error' });
+    //     setValue(0);
+    //     setHasPermission(false);
+    //   });
   };
 
   const fetchCertificateDetail = () => {
     setResponse({ status: 'loading' });
     console.log('getting the dets', certificateDetail)
     setUserDetails([]);
-    const url = `/sslcert/certificate/internal?certName=${certificateDetail.name}`;
+    const url = `/sslcert/keystores/internal?keystoreName=${certificateDetail.certificateName}`;
     apiService
       .getCertificateDetail(url)
       .then((res) => {
         if (res.data.keys && res.data.keys[0]) {
           console.log('metadata', res.data)
           setCertificateMetaData({ ...res.data.keys[0] });
-          getEachUser(res.data.keys[0].users);
+          // getEachUser(res.data.keys[0].users);
         } else if (res.data) {
           setCertificateMetaData({ ...res.data });
-          getEachUser(res.data);
+          // getEachUser(res.data);
         } else {
+          console.log('setting that shit to blank in fetchcertdetail else')
           setCertificateMetaData({});
           setResponse({ status: 'success' });
         }
@@ -206,23 +207,30 @@ const CertificateSelectionTabs = (props) => {
 
   useEffect(() => {
     if (Object.keys(certificateDetail).length > 0) {
-      if (
-        !certificateDetail?.applicationName &&
-        !certificateDetail.isOnboardCert
-      ) {
-        setCertificateMetaData({});
-        fetchCertificateDetail();
-      } else {
-        setCertificateMetaData({ ...certificateDetail });
+      // if (
+      //   !certificateDetail?.applicationName &&
+      //   !certificateDetail.isOnboardCert
+      // ) {
+      //   console.log('setting that shit to blank in useeffect')
+      //   setCertificateMetaData({});
+      //   fetchCertificateDetail();
+      // } else {
+        console.log('detail was...', certificateDetail)
+        if (certificateDetail.certOwnerEmailId != null) {
+          setCertificateMetaData({ ...certificateDetail });
+        } else {
+          fetchCertificateDetail()
+        }
+
         if (
           certificateDetail?.certOwnerNtid?.toLowerCase() ===
           state?.username?.toLowerCase()
         ) {
-          getEachUser(certificateDetail?.users);
+          // getEachUser(certificateDetail?.users);
         } else {
           setResponse({ status: 'success' });
         }
-      }
+      // }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [certificateDetail]);
@@ -281,16 +289,14 @@ const CertificateSelectionTabs = (props) => {
               <Tab label="Permissions" {...a11yProps(1)} />
             )}
           </Tabs>
-          {/* {value === 0 && isDownloadEnabled && ( */}
-            <DownLoadWrap>
-              <Download
-                certificateMetaData={certificateMetaData}
-                onDownloadChange={(status, val) =>
-                  onDownloadChange(status, val)
-                }
-              />
-            </DownLoadWrap>
-          {/* )} */}
+          <DownLoadWrap>
+            <Download
+              certificateMetaData={certificateMetaData}
+              onDownloadChange={(status, val) =>
+                onDownloadChange(status, val)
+              }
+            />
+          </DownLoadWrap>
         </AppBar>
         <TabContentsWrap>
           <TabPanel value={value} index={0}>

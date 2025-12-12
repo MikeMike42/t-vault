@@ -518,14 +518,14 @@ const CreateCertificates = (props) => {
   const onAddDnsClicked = (e) => {
     if (e.keyCode === 13 && e?.target?.value && !dnsError) {
       e.preventDefault();
-      const val = `${e.target.value}.t-mobile.com`;
+      const val = `${e.target.value}.ace.aaa.com`;
       checkDnsAlreadyIncluded(val);
     }
   };
 
   const onAddDnsKeyClicked = () => {
     if (dnsName && !dnsError) {
-      const val = `${dnsName}.t-mobile.com`;
+      const val = `${dnsName}.ace.aaa.com`;
       checkDnsAlreadyIncluded(val);
     }
   };
@@ -538,9 +538,9 @@ const CreateCertificates = (props) => {
       setErrorDnsMessage(
         'DNS can have alphabets, numbers, . and - characters only, and it should not start or end with special characters(-.)'
       );
-    } else if (value && value?.toLowerCase()?.includes('.t-mobile.com')) {
+    } else if (value && value?.toLowerCase()?.includes('.ace.aaa.com')) {
       setDnsError(true);
-      setErrorDnsMessage('Please enter DNS without .t-mobile.com.');
+      setErrorDnsMessage('Please enter DNS without .ace.aaa.com.');
     } else {
       setDnsError(false);
       setErrorDnsMessage('');
@@ -566,7 +566,7 @@ const CreateCertificates = (props) => {
   const onCreateClicked = () => {
     const obj = allApplication.find((item) => item.appName === applicationName);
     const dnsList = [];
-    dnsArray.map((item) => dnsList.push(item.replace('.t-mobile.com', '')));
+    dnsArray.map((item) => dnsList.push(item.replace('.ace.aaa.com', '')));
 
     if (obj) {
       const payload = {
@@ -822,7 +822,7 @@ const CreateCertificates = (props) => {
         !selfserviceAppName?.includes(selectedApp?.appID)
       ) {
         setApplicationNameErrorMsg(
-          'You do not have access to this group. Please go here (<a href="https://access.t-mobile.com" target="_blank">https://access.t-mobile.com</a>) to register yourself part of the group.'
+          'You do not have access to this group. Please go here (<a href="https://www.google.com" target="_blank">https://www.google.com</a>) to register yourself part of the group.'
         );
       } else {
         setApplicationNameErrorMsg(

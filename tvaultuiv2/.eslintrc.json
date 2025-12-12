@@ -8,10 +8,9 @@
   "parserOptions": {
     "ecmaVersion": 2018
   },
-  "plugins": ["react", "prettier", "react-hooks"],
+  "plugins": ["react", "react-hooks"],
   "extends": [
-    "plugin:react/recommended",
-    "plugin:prettier/recommended"
+    "plugin:react/recommended"
   ],
   "rules": {
     "strict": 0,

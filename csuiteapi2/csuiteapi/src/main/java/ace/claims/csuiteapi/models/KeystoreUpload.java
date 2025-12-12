@@ -3,10 +3,12 @@ package ace.claims.csuiteapi.models;
 public class KeystoreUpload {
     String fileName;
     String content;
+    String keystoreName;
 
-    public KeystoreUpload(String fileName, String content) {
+    public KeystoreUpload(String fileName, String content, String keystoreName) {
         this.fileName = fileName;
         this.content = content;
+        this.keystoreName = keystoreName;
     }
 
     public String getFileName() {
@@ -23,5 +25,13 @@ public class KeystoreUpload {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getKeystoreName() {
+        return keystoreName;
+    }
+
+    public void setKeystoreName(String keystoreName) {
+        this.keystoreName = keystoreName;
     }
 }

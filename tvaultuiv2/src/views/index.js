@@ -13,10 +13,7 @@ import configData from '../config/config';
 import configUrl from '../config/index';
 
 const Home = lazy(() => import('./public/HomePage'));
-const VaultAppRoles = lazy(() => import('./private/vault-app-roles'));
 const Certificates = lazy(() => import('./private/certificates'));
-const ServiceAccounts = lazy(() => import('./private/service-accounts'));
-const IamServiceAccounts = lazy(() => import('./private/iam-service-accounts'));
 const AzurePrincipal = lazy(() => import('./private/azureprincipal'));
 
 const LoaderWrap = styled('div')`
@@ -156,34 +153,10 @@ const PrivateRoutes = () => {
       >
         <Switch>
           <Route
-            path="/vault-app-roles"
-            render={(routeProps) => (
-              <Wrapper>
-                <VaultAppRoles routeProps={routeProps} />
-              </Wrapper>
-            )}
-          />
-          <Route
             path="/certificates"
             render={(routeProps) => (
               <Wrapper>
                 <Certificates routeProps={routeProps} />
-              </Wrapper>
-            )}
-          />
-          <Route
-            path="/service-accounts"
-            render={(routeProps) => (
-              <Wrapper>
-                <ServiceAccounts routeProps={routeProps} />
-              </Wrapper>
-            )}
-          />
-          <Route
-            path="/iam-service-accounts"
-            render={(routeProps) => (
-              <Wrapper>
-                <IamServiceAccounts routeProps={routeProps} />
               </Wrapper>
             )}
           />

@@ -139,7 +139,6 @@ const Header = (props) => {
   const generalNavItems = {
     customSafesNavItems: [
       { label: 'Safes', path: 'safes' },
-      { label: 'Vault AppRoles', path: 'vault-app-roles' },
     ],
     svcNavItems: [
       { label: 'AD Service Accounts', path: 'service-accounts' },
@@ -152,7 +151,6 @@ const Header = (props) => {
     {
       customSafesNavItems: [
         { label: 'Safes', path: 'safes' },
-        { label: 'Vault AppRoles', path: 'vault-app-roles' },
       ],
       svcNavItems: [{ label: 'AD Service Accounts', path: 'service-accounts' }],
     }

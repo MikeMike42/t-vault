@@ -64,7 +64,7 @@ const CertificateHeader = (props) => {
         </IconDescriptionWrapper>
         {!showPreview && (
           <CollapsibleDropdown
-            titleMore="How certificates work"
+            titleMore="How creating keystore works"
             titleLess="View Less"
             collapseStyles="background:none"
             titleCss={ViewMoreStyles}
@@ -83,14 +83,6 @@ const CertificateHeader = (props) => {
                 </Span>
                 {ReactHtmlParser(Strings.Resources.certificateGuide2)}
               </InfoLine>
-
-              {/* <InfoLine>
-                <Span>
-                  <strong>3:</strong>
-                </Span>
-                {ReactHtmlParser(Strings.Resources.certificateGuide3)}
-              </InfoLine> */}
-
               <InfoLine>
                 <Span>
                   <strong>3:</strong>

@@ -7,9 +7,9 @@ const getAllAdminCertExternal = (limit, offset) =>
   api.get(`/sslcert?certType=external&limit=${limit}&offset=${offset}`);
 const getAllNonAdminCertInternal = () => api.get(`/sslcert/list/internal`);
 const getAllNonAdminCertExternal = () => api.get('/sslcert/list/external');
-const getInternalCertificates = () => api.get(`/sslcert/allcertificates`);
+const getInternalCertificates = () => api.get(`/sslcert/allkeystores`);
 // (limit, offset) => api.get(`/sslcert?certificateName=&certType=internal&limit=${limit}&offset=${offset}`);
-const searchAllCert = () => api.get(`/sslcert/allcertificates`);
+const searchAllCert = () => api.get(`/sslcert/allkeystores`);
 const getExternalCertificates = (limit, offset) =>
   api.get(
     `/sslcert?certificateName=&certType=external&limit=${limit}&offset=${offset}`
@@ -58,10 +58,10 @@ const transferOwner = (certType, name, ownerName) =>
 const onDownloadCertificate = (name, format, certType) =>
   api.get(`/sslcert/certificates/${name}/${format}/${certType}`);
 const onPrivateDownload = (payload) =>
-  api.post('/sslcert/certificates/download', payload);
+  api.post('/sslcert/keystores/download', payload);
 
 const uploadKeystore = (payload) =>
-  api.post('/sslcert/certificates/upload', payload);
+  api.post('/sslcert/keystores/upload', payload);
 
 const onReleasecertificate = (name, type, reason) =>
   api.post(`/sslcert/unlink/${name}/${type}/${reason}`);

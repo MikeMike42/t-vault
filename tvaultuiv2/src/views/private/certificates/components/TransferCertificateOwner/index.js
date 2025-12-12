@@ -414,7 +414,7 @@ const CreateCertificates = (props) => {
                     styling={{ bottom: '5rem' }}
                   />
                   <InstructionText>
-                    Search the T-Mobile system to add users
+                    Search the system to add users
                   </InstructionText>
                   {autoLoader && (
                     <LoaderSpinner customStyle={autoLoaderStyle} />

@@ -107,7 +107,7 @@ const CertificateItemDetail = (props) => {
               <ListTitle>{name !== 'N/A' ? name : '...'}</ListTitle>
             )}
             <TitleThree color="#c4c4c4">
-              {Strings.Resources.certificateDesc}
+              Internal Keystore
             </TitleThree>
           </div>
         </ColumnHeader>

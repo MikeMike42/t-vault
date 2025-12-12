@@ -1,46 +1,101 @@
 import { useState } from 'react';
-import { Upload, X, File, CheckCircle } from 'lucide-react';
+import { Upload, X, File, CheckCircle, CloudUploadIcon } from 'lucide-react';
 import styled from 'styled-components';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
-import { Backdrop, Button } from '@material-ui/core';
+import { Backdrop, Button, InputLabel } from '@material-ui/core';
 import Fade from '@material-ui/core/Fade';
 import ButtonComponent from '../../../../../components/FormFields/ActionButton';
 import {
-	GlobalModalWrapper
+	GlobalModalWrapper,
+	RequiredCircle
 } from '../../../../../styles/GlobalStyles';
 import apiService from '../../apiService';
+import TextFieldComponent from '../../../../../components/FormFields/TextField';
+import CertificateHeader from '../CertificateHeader';
 
-export default function CertificateFileUploader() {
-	const useStyles = makeStyles((theme) => ({
-		select: {
-			'&.MuiFilledInput-root.Mui-focused': {
-				backgroundColor: '#fff',
-			},
-		},
-		dropdownStyle: {
+const InputFieldLabelWrapper = styled.div`
+	margin-bottom: 2rem;
+	position: ${(props) => (props.postion ? 'relative' : '')};
+	.MuiSelect-icon {
+		top: auto;
+		color: ${(props) => props.theme.customColor.primary.color};
+	}
+`;
+
+const useStyles = makeStyles((theme) => ({
+	select: {
+		'&.MuiFilledInput-root.Mui-focused': {
 			backgroundColor: '#fff',
-			maxHeight: '20rem',
 		},
-		modal: {
-			display: 'flex',
-			alignItems: 'center',
-			justifyContent: 'center',
-			overflowY: 'auto',
-			padding: '10rem 0',
-			[theme.breakpoints.down('xs')]: {
-				alignItems: 'unset',
-				justifyContent: 'unset',
-				padding: '0',
-				height: '100%',
-			},
+	},
+	dropdownStyle: {
+		backgroundColor: '#fff',
+		maxHeight: '20rem',
+	},
+	modal: {
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+		overflowY: 'auto',
+		padding: '10rem 0',
+		[theme.breakpoints.down('xs')]: {
+			alignItems: 'unset',
+			justifyContent: 'unset',
+			padding: '0',
+			height: '100%',
 		},
-	}));
+	},
+}));
 
+const StyledModal = styled(Modal)`
+		@-moz-document url-prefix() {
+			.MuiBackdrop-root {
+				position: absolute;
+				height: 95rem;
+			}
+		}
+	`;
+
+	const FooterText = styled.p`
+		font-size: 16px;
+		color: white;
+	`;
+
+	const InputEndWrap = styled.div`
+		display: flex;
+	`;
+
+	
+	const EndingBox = styled.div`
+		background-color: ${(props) =>
+			props.disabled ? "rgba(0, 0, 0, 0.12)" : props.theme.customColor.primary.backgroundColor};
+		color: ${(props) => props.theme.customColor.primary.color};
+		width: ${(props) => props.width};
+		display: flex;
+		align-items: center;
+		height: 5rem;
+	`;
+
+	const VisuallyHiddenInput = styled('input')({
+		clip: 'rect(0 0 0 0)',
+		clipPath: 'inset(50%)',
+		height: 1,
+		overflow: 'hidden',
+		position: 'absolute',
+		bottom: 0,
+		left: 0,
+		whiteSpace: 'nowrap',
+		width: 1,
+	});
+
+
+export default function CertificateFileUploader(props) {
 	const [open, setOpen] = useState(true);
-	const [file, setFile] = useState(null);
+	const [files, setFiles] = useState([]);
 	const [isDragging, setIsDragging] = useState(false);
 	const classes = useStyles();
+	const [keystoreName, setKeystoreName] = useState('gwcpnonprod.aceclublink.com_');
 
 	const handleClose = () => {
 		setOpen(false)
@@ -61,44 +116,49 @@ export default function CertificateFileUploader() {
 		e.preventDefault();
 		setIsDragging(false);
 
-		const droppedFile = e.dataTransfer.files[0];
-		if (droppedFile) {
-			const reader = new FileReader();
+		for (let i = 0; i < e.dataTransfer.files.length; i++) {
+			var droppedFile = e.dataTransfer.files[i]
+			if (droppedFile) {
+				const reader = new FileReader();
+				reader.fileName = droppedFile.name
 
-			reader.onload = (event) => {
-				const fileContent = event.target.result;
-				setFile(fileContent);
+				reader.onload = (event) => {
+					const fileContent = event.target.result;
+					setFiles((previous) => [...previous, {fileName: event.target.fileName, content: fileContent}]);
+				}
+
+				reader.readAsText(droppedFile);
 			}
-
-			reader.readAsText(droppedFile);
-			// reader.readAsArrayBuffer(droppedFile);
 		}
+	
 	};
 
 	const handleFileChange = (e) => {
-		const selectedFile = e.target.files[0];
-		if (selectedFile) {
-			setFile(selectedFile);
+		var files = e.target.files
+
+		for (let i = 0; i < files.length; i++) {
+			var droppedFile = files[i]
+			if (droppedFile) {
+				const reader = new FileReader();
+				reader.fileName = droppedFile.name
+
+				reader.onload = (event) => {
+					const fileContent = event.target.result;
+					setFiles((previous) => [...previous, {fileName: event.target.fileName, content: fileContent}]);
+				}
+
+				reader.readAsText(droppedFile);
+			}
 		}
+	};
+
+	const onKeyStoreNameChange = (e) => {
+		setKeystoreName(e.target.value);
 	};
 
 	const handleRemove = () => {
-		setFile(null);
+		setFiles([]);
 	};
-
-	const StyledModal = styled(Modal)`
-		@-moz-document url-prefix() {
-			.MuiBackdrop-root {
-				position: absolute;
-				height: 95rem;
-			}
-		}
-	`;
-
-	const FooterText = styled.p`
-		font-size: 18px;
-		color: white;
-	`;
 
 	const formatFileSize = (bytes) => {
 		if (bytes === 0) return '0 Bytes';
@@ -108,20 +168,23 @@ export default function CertificateFileUploader() {
 		return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
 	};
 
-	const uploadFile = () => {
-		const payload = {
-      fileName: 'testing.jks',
-			content: file
-    };
-
-		console.log('payload', payload)
-
-		apiService.uploadKeystore(payload)
+	const uploadFiles = () => {
+		apiService.uploadKeystore({uploads: files, keystoreName: keystoreName + '.jks'})
 		.then(async (res) => {
-        console.log('res', res)
+				props.setToastResponse(1)
+				props.setToastMessage('Successfully created keystore')
+				setOpen(false)
+				setTimeout(function() {
+					window.location.reload()
+				}, 1000);
       })
       .catch((err) => {
-        console.error("shits fucked", err)
+        props.setToastResponse(-1)
+				props.setToastMessage('An error occurred while creating keystore')
+				setOpen(false)
+				setTimeout(function() {
+					window.location.reload()
+				}, 1000);
       });
 	}
 
@@ -140,6 +203,27 @@ export default function CertificateFileUploader() {
 		>
 			<Fade in={open}>
 				<GlobalModalWrapper>
+					<CertificateHeader />
+					<InputFieldLabelWrapper>
+						<div style={{ width: '80%' }}>
+							<InputLabel>
+								Keystore Name
+								<RequiredCircle margin="1.3rem" />
+							</InputLabel>
+							<InputEndWrap>
+								<TextFieldComponent
+									value={keystoreName}
+									placeholder="Enter a keystore name..."
+									fullWidth
+									name="keystoreName"
+									onChange={(e) => {
+										onKeyStoreNameChange(e)
+									}}
+								/>
+								<EndingBox width="14rem">. jks</EndingBox>
+							</InputEndWrap>
+						</div>
+					</InputFieldLabelWrapper>
 					<div className="min-h-screen bg-gray-900 flex items-center justify-center p-4">
 						<div className="w-full max-w-md">
 
@@ -152,7 +236,7 @@ export default function CertificateFileUploader() {
 										: 'border-gray-700 bg-gray-800/50'
 									}`}
 							>
-								{!file ? (
+								{files.length === 0 ? (
 									<div 
 										className="text-center" 
 										style={{ 
@@ -171,19 +255,26 @@ export default function CertificateFileUploader() {
 										</div>
 
 										<h3 className="text-lg font-semibold text-white mb-2">
-											Drag and Drop Keystore
+											Drag and Drop Certificates
 										</h3>
 										<p className="text-gray-400 text-lg mb-4" style={{ fontSize: '18px' }}>
 											or
 										</p>
-
-										<ButtonComponent
-											type="file" 
-											onChange={handleFileChange}
-                      label="Upload File"
-                      color="secondary"
-                      // onClick={() => {}}
-                    />
+										<Button
+											component="label"
+											role={undefined}
+											variant="contained"
+											color='secondary'
+											tabIndex={-1}
+											startIcon={<CloudUploadIcon />}
+										>
+											Upload files
+											<VisuallyHiddenInput
+												type="file"
+												onChange={(event) => handleFileChange(event)}
+												multiple
+											/>
+										</Button>
 									</div>
 								) : (
 									<div className="space-y-4">
@@ -194,10 +285,10 @@ export default function CertificateFileUploader() {
 												</div>
 												<div className="flex-1 min-w-0">
 													<p className="text-white font-medium truncate">
-														{file.name}
+														{/* Update with filename */}
 													</p>
 													<p className="text-gray-400 text-sm">
-														{formatFileSize(file.size)}
+														{/* Update with file size{formatFileSize(file.size)} */}
 													</p>
 												</div>
 											</div>
@@ -217,15 +308,15 @@ export default function CertificateFileUploader() {
 										<div style={{ marginTop: '1rem' }}>
 											<ButtonComponent
 												type="file" 
-												label="Upload Selected File"
+												label="Upload Selected Files"
 												color="secondary"
-												onClick={() => {uploadFile()}}
+												onClick={() => {uploadFiles()}}
 											/>
 										</div>
 									</div>
 								)}
 								<FooterText>
-									Supported format(s): .jks
+									Supported format(s): pem, crt, key
 								</FooterText>
 							</div>
 						</div>

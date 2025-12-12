@@ -274,7 +274,7 @@ const AddGroup = (props) => {
                 characterLimit={100}
               />
               <InstructionText>
-                Search the T-Mobile system to add groups
+                Search the C-Suite system to add groups
               </InstructionText>
               {(isCertificate || isIamSvcAccount || isAzureSvcAccount) && (
                 <InstructionText>

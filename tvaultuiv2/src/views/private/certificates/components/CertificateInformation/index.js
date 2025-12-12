@@ -159,7 +159,7 @@ const CertificateInformation = (props) => {
                   <Label>Enroll Service:</Label>
                   <Value>
                     {certificateMetaData?.type?.toLowerCase() === 'internal'
-                      ? 'T-Mobile Issuing CA 01 - SHA2'
+                      ? 'CA 01 - SHA2'
                       : 'Entrust CA'}
                   </Value>
                 </EachDetail>
